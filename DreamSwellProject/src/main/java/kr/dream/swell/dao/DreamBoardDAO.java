@@ -20,12 +20,13 @@ public interface DreamBoardDAO {
 	/** board의 최대 idx 리턴 */
 	int findLastItemIdx() throws SQLException;
 	
-	DreamSwellBoardVO selectByIdx(int idx) throws SQLException;
-	int selectByIdx(HashMap<String, Object> map) throws SQLException;
+	DreamSwellBoardVO selectByIdx(Long idx) throws SQLException;
+	Long selectCount(HashMap<String, Object> map) throws SQLException;
 	void insert(DreamSwellBoardVO boardVO) throws SQLException;
 	void update(DreamSwellBoardVO boardVO) throws SQLException;
-	void delete(int idx) throws SQLException;
-	void deleteByUserRef(int userRef) throws SQLException;
-	void updateLove(int idx) throws SQLException;
-	int countHeart(int idx) throws SQLException;
+	void delete(Long idx) throws SQLException;
+	void deleteByUserRef(Long userRef) throws SQLException;
+	void updateLove(Long idx) throws SQLException;
+	void pupdateComment(Long idx) throws SQLException;
+	void mupdateComment(Long idx) throws SQLException;
 }

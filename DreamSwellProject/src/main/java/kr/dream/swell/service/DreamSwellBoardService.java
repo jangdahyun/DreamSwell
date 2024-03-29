@@ -6,7 +6,7 @@ import kr.dream.swell.vo.DreamSwellBoardVO;
 
 public interface DreamSwellBoardService {
 	// 1. 페이징
-	List<DreamSwellBoardVO> selectScrollBoard(int lastItemIdx, int sizeOfPage, Integer categoryNum, String search);
+	List<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, Long sizeOfPage, Integer categoryNum, String search);
 	
 	int findLastItemIdx();
 	// 2. 한개얻기
@@ -24,11 +24,17 @@ public interface DreamSwellBoardService {
 	// 6.수정
 	void update(DreamSwellBoardVO jungBoardVO);
 	
-	//좋아요  개수 
-	int countHeart(int idx);
-	
-	//좋아요 누르기
+	//7. 좋아요 누르기
 	void updateLove(int idx);
+	
+	//8. 댓글 쓴 개수
+	void pupdateComment(int idx);
+	
+	//9. 댓글 썼다 지운 다음 개수
+	void mupdateComment(int idx);
+	
+	
+	
 
 	// 카테고리 불러오기
 	String findCategoryName(int categoryNum);
