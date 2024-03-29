@@ -1,4 +1,6 @@
+
 drop table dreamcategory;
+
 create table dreamcategory(
 	idx int primary key auto_increment,
 	categoryName varchar(100) not null

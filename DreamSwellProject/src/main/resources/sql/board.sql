@@ -10,6 +10,7 @@ CREATE TABLE dreamswellBoard (
     targetAmount int NOT NULL,
     currentAmount int DEFAULT 0,
     love int DEFAULT 0,
+    commentCount int DEFAULT 0,
     category1 int NOT NULL,
     category2 int null,
     category3 int null,
