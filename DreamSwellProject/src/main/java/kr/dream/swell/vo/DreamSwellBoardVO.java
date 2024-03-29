@@ -1,6 +1,7 @@
 package kr.dream.swell.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -17,7 +18,11 @@ public class DreamSwellBoardVO {
 	private int targetAmount;		// 목표금액
 	private int currentAmount;		// 현재금액
 	private int love;				// 좋아요수
+	private int commentCount;		// 댓글 수 
 	private Integer category1;		// 테그1
 	private Integer category2;		// 테그2
 	private Integer category3;		// 테그3
+	//DB설계 끝
+	
+	private List<DreamSwellCategoryVO> categoryName1;	// 카테고리 이름
 }

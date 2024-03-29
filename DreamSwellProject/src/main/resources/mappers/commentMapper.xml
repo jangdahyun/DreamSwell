@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd" >
+<mapper namespace="kr.dream.swell.dao.DreamSwellCommentDAO">
+	<!-- board의 idx에 해당하는 댓글 주기 -->
+	<select id="selectByRef" parameterType="hashmap" resultType="DreamSwellCommentVO">
+	    SELECT
+	        *
+	    FROM
+	        dreamSwellComment
+	    WHERE
+	        boardRef = #{boardRef}
+	    ORDER BY
+	        idx DESC
+	    LIMIT #{startNo}, #{sizeOfPage}
+	</select>
+	
+	<!-- User의 idx에 해당하는 댓글 주기 -->
+	<select id="selectByUserRef" parameterType="int" resultType="DreamSwellCommentVO">
+		select * from dreamSwellComment where userRef = #{userRef} order by idx desc
+	</select>
+	
+	<!-- 댓글 저장 -->
+	<insert id="insert" parameterType="DreamSwellCommentVO">
+	    INSERT INTO dreamSwellComment (userRef ,boardRef ,content)
+	    VALUES (#{userRef}, #{boardRef}, #{content})
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="update" parameterType="DreamSwellCommentVO">
+		update dreamSwellComment set content = #{content}, regDate = NOW() where idx = #{idx}
+	</update>
+	
+	<!-- 댓글 1개 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from dreamSwellComment where idx = #{idx}
+	</delete>
+</mapper>
