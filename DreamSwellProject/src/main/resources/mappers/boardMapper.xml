@@ -29,9 +29,9 @@
 			</if>
 			<if test="categoryNum != null ">
 				and(				
-				 	dreamswellBoard.category1 = #{category1}
-					OR dreamswellBoard.category2 = #{category2}
-					OR dreamswellBoard.category3 = #{category3}
+				 	dreamswellBoard.category1 = #{categoryNum}
+					OR dreamswellBoard.category2 = #{categoryNum}
+					OR dreamswellBoard.category3 = #{categoryNum}
 				 )
 			</if>
 			
@@ -115,6 +115,7 @@
     	where
     		idx = #{idx}
 	</update>
+	
 	<update id="pupdateComment" parameterType="Long">
     	update
     		dreamswellBoard
@@ -123,6 +124,7 @@
     	where
     		idx = #{idx}
 	</update>
+	
 	<update id="mupdateComment" parameterType="Long">
     	update
     		dreamswellBoard
