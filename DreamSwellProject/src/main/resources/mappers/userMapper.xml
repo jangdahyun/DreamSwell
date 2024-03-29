@@ -13,4 +13,39 @@
 		insert into dreamUser (username, password, nickName, email1, email2, profile, role)
 		values (#{username}, #{password}, #{nickName}, #{email1}, #{email2}, #{profile}, #{role})
 	</insert>
+	
+	<select id="selectByIdx" parameterType="Long" resultType="DreamUserVO">
+		select * from dreamUser where idx = #{idx}
+	</select>
+	
+	<!-- 아이디 중복확인 -->
+	<select id="selectCountByUsername" parameterType="string" resultType="int">
+		select count(*) from dreamUser where username = #{username}
+	</select>
+	
+	<update id="update" parameterType="DreamUserVO">
+		UPDATE dreamUser
+		SET
+			<if test="nickName != null">
+				nickName = #{nickName}			
+			</if>
+			<if test="profile != null">
+				profile = #{profile}
+			</if>
+			<if test="password != null">
+				password = #{password}
+			</if>
+		WHERE
+			idx = #{idx}
+	</update>
+	
+	<!-- jung_member 테이블에 계정 정보를 삭제. -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM dreamUser
+		WHERE idx = #{idx}
+	</delete>
+	
+	<select id="emailCheck" parameterType="hashmap" resultType="int">
+		select count(*) from dreamUser where email1 = #{email1} AND email2 = #{email2}
+	</select>
 </mapper>

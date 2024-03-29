@@ -86,50 +86,62 @@ public class DreamUserService extends DefaultOAuth2UserService implements UserDe
 	}
 	
 	public int insert(DreamUserVO memberVO) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			dreamUserDAO.insert(memberVO);
+			result = 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	public int selectCountByUsername(String username) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int selectCountByNickName(String username) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dreamUserDAO.selectCountByUsername(username);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
-	public DreamUserVO selectByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public DreamUserVO selectByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public DreamUserVO selectByIdx(int idx) {
-		// TODO Auto-generated method stub
-		return null;
+	public DreamUserVO selectByIdx(Long idx) {
+		DreamUserVO dreamUserVO = null;
+		try {
+			dreamUserVO = dreamUserDAO.selectByIdx(idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dreamUserVO;
 	}
 
 	public int update(DreamUserVO memberVO) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			dreamUserDAO.insert(memberVO);
+			result = 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
-	public int delete(int idx) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delete(Long idx) {
+		int result = 0;
+		try {
+			dreamUserDAO.delete(idx);
+			result = 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
-	public int emailCheck(String email) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
+	/*
+	 * 여기부터 관리자 페이지?
+	 * */
 	public PagingVO<DreamUserVO> getUsers(CommonVO cv) {
 		// TODO Auto-generated method stub
 		return null;
