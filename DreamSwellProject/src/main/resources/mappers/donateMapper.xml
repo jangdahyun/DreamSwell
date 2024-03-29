@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd" >
 <mapper namespace="kr.dream.swell.dao.DreamSwellDonateDAO">
 	<!-- board의 idx에 해당하는 후원한 사람 주기 -->
-	<select id="selectByBoardRef" parameterType="int" resultType="DreamSwellDonateVO">
+	<select id="selectByBoardRef" parameterType="Long" resultType="DreamSwellDonateVO">
 	    SELECT
 	        *
 	    FROM
@@ -12,12 +12,12 @@
 	</select>
 	
 	<!-- User의 idx에 해당하는 후원한 사람 주기 -->
-	<select id="selectByUserRef" parameterType="int" resultType="DreamSwellDonateVO">
+	<select id="selectByUserRef" parameterType="Long" resultType="DreamSwellDonateVO">
 		select * from dreamswelldonate where userRef = #{userRef} order by idx desc
 	</select>
 	
 	<!-- 해당 유저의 후원 개수 -->
-	<select id="selectCountByUserRef" parameterType="int" resultType="int">
+	<select id="selectCountByUserRef" parameterType="Long" resultType="Long">
 		select
 			count(*)
 		from
@@ -27,7 +27,7 @@
 	</select>
 	
 	<!--  해당 board의 후원 개수 -->
-	<select id="selectCountByBoardRef" parameterType="int" resultType="int">
+	<select id="selectCountByBoardRef" parameterType="Long" resultType="Long">
 		select
 			count(*)
 		from
