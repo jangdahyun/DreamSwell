@@ -1,8 +1,10 @@
 
+drop table dreamcategory;
+
 create table dreamcategory(
 	idx int primary key auto_increment,
 	categoryName varchar(100) not null
-	);
+);
 
 INSERT INTO dreamcategory (categoryName) VALUES ('장애인식개선');
 INSERT INTO dreamcategory (categoryName) VALUES ('식사지원');
@@ -21,6 +23,4 @@ INSERT INTO dreamcategory (categoryName) VALUES ('지구촌');
 INSERT INTO dreamcategory (categoryName) VALUES ('교육지원');
 
 select * from dreamcategory ;
-
-drop table dreamcategory;
 
