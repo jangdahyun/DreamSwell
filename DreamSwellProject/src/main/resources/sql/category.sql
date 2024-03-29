@@ -1,23 +1,25 @@
-CREATE TABLE dreamswellBoard (
-    idx int PRIMARY KEY AUTO_INCREMENT,
-    thumbnail varchar(2000) NOT NULL,
-    title varchar(500) NOT NULL,
-    content varchar(4000) NOT NULL,
-    regDate timestamp DEFAULT CURRENT_TIMESTAMP,
-    stDate timestamp NOT NULL,
-    endDate timestamp NOT NULL,
-    targetAmount int NOT NULL,
-    currentAmount int DEFAULT 0,
-    love int DEFAULT 0,
-    userRef int NOT NULL,
-    category1 int NOT NULL,
-    category2 int null,
-    category3 int null,
-    CONSTRAINT fk_userRef FOREIGN KEY (userRef) REFERENCES dreamUser(idx) on delete cascade,
-    CONSTRAINT fk_category1 FOREIGN KEY (category1) REFERENCES dreamcategory(idx),
-    CONSTRAINT fk_category2 FOREIGN KEY (category2) REFERENCES dreamcategory(idx),
-    CONSTRAINT fk_category3 FOREIGN KEY (category3) REFERENCES dreamcategory(idx)
-);
-select *from dreamswellboard;
 
-drop table dreamswellboard;
+create table dreamSwellComment(
+	idx int primary key auto_increment,
+	categoryName varchar(100) not null
+	);
+
+INSERT INTO dreamcategory (categoryName) VALUES ('장애인식개선');
+INSERT INTO dreamcategory (categoryName) VALUES ('식사지원');
+INSERT INTO dreamcategory (categoryName) VALUES ('어려운이웃');
+INSERT INTO dreamcategory (categoryName) VALUES ('장애인');
+INSERT INTO dreamcategory (categoryName) VALUES ('우리사회');
+INSERT INTO dreamcategory (categoryName) VALUES ('독거노인');
+INSERT INTO dreamcategory (categoryName) VALUES ('청년');
+INSERT INTO dreamcategory (categoryName) VALUES ('유기동물');
+INSERT INTO dreamcategory (categoryName) VALUES ('아동청소년');
+INSERT INTO dreamcategory (categoryName) VALUES ('생계지원');
+INSERT INTO dreamcategory (categoryName) VALUES ('실버세대');
+INSERT INTO dreamcategory (categoryName) VALUES ('장애인가정');
+INSERT INTO dreamcategory (categoryName) VALUES ('지구촌');
+INSERT INTO dreamcategory (categoryName) VALUES ('교육지원');
+
+select * from dreamcategory ;
+
+drop table dreamcategory;
+

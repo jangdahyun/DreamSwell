@@ -1,5 +1,6 @@
 CREATE TABLE dreamswellBoard (
     idx int PRIMARY KEY AUTO_INCREMENT,
+    userRef int NOT NULL,
     thumbnail varchar(2000) NOT NULL,
     title varchar(500) NOT NULL,
     content varchar(4000) NOT NULL,
@@ -9,7 +10,6 @@ CREATE TABLE dreamswellBoard (
     targetAmount int NOT NULL,
     currentAmount int DEFAULT 0,
     love int DEFAULT 0,
-    userRef int NOT NULL,
     category1 int NOT NULL,
     category2 int null,
     category3 int null,
