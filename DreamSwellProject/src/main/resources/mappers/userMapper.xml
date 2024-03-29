@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd" >
 <mapper namespace="kr.dream.swell.dao.DreamUserDAO">
 	
+	<select id="selectByUsername" parameterType="string" resultType="DreamUserVO">
+		select * from dreamUser where username = #{username}
+	</select>
+	
+	<insert id="insert" parameterType="DreamUserVO">
+		<selectKey keyColumn="idx" keyProperty="idx" resultType="Long" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into dreamUser (username, password, nickName, email1, email2, profile, role)
+		values (#{username}, #{password}, #{nickName}, #{email1}, #{email2}, #{profile}, #{role})
+	</insert>
 </mapper>

@@ -1,0 +1,19 @@
+<!DOCTYPE html >
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+	홈페이지
+	<hr />
+	<th:block th:if="${session.user == null}">
+		<a href="/login">로그인하기</a>	
+	</th:block>
+	<th:block th:if="${session.user != null}">
+		<a href="/logout">로그아웃하기</a>		
+		반갑습니다. [[${user.nickName}]]님
+	</th:block>
+	<hr />
+</body>
+</html>
