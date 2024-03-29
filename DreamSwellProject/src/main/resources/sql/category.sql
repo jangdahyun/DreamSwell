@@ -1,5 +1,5 @@
 
-create table dreamSwellComment(
+create table dreamcategory(
 	idx int primary key auto_increment,
 	categoryName varchar(100) not null
 	);
@@ -11,6 +11,7 @@ INSERT INTO dreamcategory (categoryName) VALUES ('장애인');
 INSERT INTO dreamcategory (categoryName) VALUES ('우리사회');
 INSERT INTO dreamcategory (categoryName) VALUES ('독거노인');
 INSERT INTO dreamcategory (categoryName) VALUES ('청년');
+INSERT INTO dreamcategory (categoryName) VALUES ('기본생활지원');
 INSERT INTO dreamcategory (categoryName) VALUES ('유기동물');
 INSERT INTO dreamcategory (categoryName) VALUES ('아동청소년');
 INSERT INTO dreamcategory (categoryName) VALUES ('생계지원');

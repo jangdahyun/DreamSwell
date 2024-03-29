@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd" >
+<mapper namespace="kr.dream.swell.dao.DreamBoardDAO">
+
+	<select id="selectScrollList" parameterType="hashmap" resultType="JungBoardVO">
+		select
+			dreamswellBoard.*
+			(
+				SELECT
+					categoryName
+				FROM
+					dreamcategory
+				WHERE
+					dreamcategory.idx = dreamswellBoard.category1
+					OR dreamcategory.idx = dreamswellBoard.category2
+					OR dreamcategory.idx = dreamswellBoard.category3
+			) AS categoryName
+		from
+			dreamswellBoard
+		where
+			<![CDATA[
+				dreamswellBoard.idx < #{lastItemIdx}
+			]]>
+			<if test="search != null">
+				and (
+					dreamswellBoard.title like '%' || #{search} || '%'
+					or dreamswellBoard.content like '%' || #{search} || '%'
+				)
+			</if>
+			<if test="categoryNum != null ">
+				and(				
+				 	dreamswellBoard.category1 = #{category1}
+					OR dreamswellBoard.category2 = #{category2}
+					OR dreamswellBoard.category3 = #{category3}
+				 )
+			</if>
+			
+		order by
+			dreamswellBoard.idx DESC
+		LIMIT #{sizeOfPage}
+	</select>
+	
+	<select id="findLastItemIdx" resultType="Long">
+	    SELECT 
+	        IFNULL(MAX(dreamswellBoard.idx), 0) AS lastItemIdx
+	    FROM 
+	        dreamswellBoard
+	</select>
+
+	
+	<!--idx로 보드 얻기 -->
+	<select id="selectByIdx" parameterType="Long" resultType="DreamSwellBoardVO">
+		select * from dreamswellBoard where idx = #{idx}
+	</select>
+	
+	<select id="selectCount" parameterType="hashmap" resultType="Long">
+		select
+			count(*)
+		from
+			dreamswellBoard
+		<where>						
+			<if test="userRef != null">
+        		and userRef = #{userRef}
+    		</if>	
+			<if test="search != null">
+				and (
+					title like '%' || #{search} || '%'
+					or content like '%' || #{search} || '%'
+				)
+			</if>
+			<if test="categoryNum != null ">
+				and 
+					(
+						category1 = #{categoryNum}
+						or category2 = #{categoryNum}		
+						or category3 = #{categoryNum}		
+					)
+			</if>
+		</where>
+	</select>
+	
+	<!-- 저장 -->
+	<insert id="insert" parameterType="DreamSwellBoardVO">
+	    <selectKey resultType="Long" keyProperty="idx" order="AFTER" keyColumn="idx">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+		    INSERT INTO
+		    	dreamswellBoard (userRef, thumbnail, title, content, stDate, endDate, targetAmount, category1, category2, category3)
+		    VALUES
+		    	(#{userRef}, #{thumbnail}, #{title}, #{content}, #{stDate}, #{endDate}, #{targetAmount}, #{category1}, #{category2}, #{category3})
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="update" parameterType="DreamSwellBoardVO">
+		update dreamswellBoard set thumbnail=#{thumbnail}, title=#{title}, content = #{content}, regdate = sysdate where idx = #{idx} ,endDate = #{endDate}, targetAmount = #{targetAmount}, 
+		category1 = #{category1} , category2 = #{category2}, category3 = #{category3}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="Long">
+		delete from dreamswellBoard where idx = #{idx}
+	</delete>
+	
+	<!-- userRef로 삭제 -->
+	<delete id="deleteByUserRef" parameterType="Long">
+		delete from dreamswellBoard where userRef = #{userRef}
+	</delete>
+	
+	<!-- 좋아요 누르기 -->
+	<update id="updateLove" parameterType="Long">
+    	update
+    		dreamswellBoard
+    	set
+    		love = love + 1
+    	where
+    		idx = #{idx}
+	</update>
+	<update id="pupdateComment" parameterType="Long">
+    	update
+    		dreamswellBoard
+    	set
+    		commentCount = commentCount + 1
+    	where
+    		idx = #{idx}
+	</update>
+	<update id="mupdateComment" parameterType="Long">
+    	update
+    		dreamswellBoard
+    	set
+    		commentCount = commentCount - 1
+    	where
+    		idx = #{idx}
+	</update>
+</mapper>
