@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.dream.swell.dao.DreamBoardDAO;
+import kr.dream.swell.dao.DreamCategoryDAO;
 import kr.dream.swell.vo.DreamSwellBoardVO;
 
 @Service(value = "dreamSwellBoardService")
@@ -17,10 +18,16 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 	@Autowired
 	private DreamBoardDAO dreamBoardDAO;
 	
+	@Autowired
+	private DreamUserService dreamUserService;
+	
+	@Autowired
+	private DreamCategoryDAO dreamCategoryDAO;
+	
 	@Override
-	public List<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, Long sizeOfPage, Integer categoryNum, String search) {
+	public ArrayList<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search) {
+		ArrayList<DreamSwellBoardVO> list = null;
 		try {
-			ArrayList<DreamSwellBoardVO> list = null;
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("lastItemIdx", lastItemIdx);
 			map.put("sizeOfPage", sizeOfPage);
@@ -29,71 +36,127 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 			map.put("category3", categoryNum);
 			map.put("search", search);
 			list= dreamBoardDAO.selectScrollList(map);
+			for(DreamSwellBoardVO boardVO : list) {
+				//유정 정보 
+				boardVO.setMember(dreamUserService.selectByIdx(boardVO.getUserRef()));
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return list;
+	}
+	
+	@Override
+	public Long findLastItemIdx() {
+	    Long result = 0L; // Long으로 선언하고 기본값 설정
+	    try {
+	        result = dreamBoardDAO.findLastItemIdx();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return result;
 	}
 
 	@Override
-	public int findLastItemIdx() {
-		// TODO Auto-generated method stub
-		return 0;
+	public DreamSwellBoardVO selectByIdx(Long idx) {
+		DreamSwellBoardVO boardVO = null;
+		try {
+			boardVO = dreamBoardDAO.selectByIdx(idx);
+			if (boardVO != null) {
+				//유저정보
+				boardVO.setMember(dreamUserService.selectByIdx(idx));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return boardVO;
 	}
 
 	@Override
-	public DreamSwellBoardVO selectByIdx(int idx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void insert(DreamSwellBoardVO jungBoardVO) {
-		// TODO Auto-generated method stub
+	public void insert(DreamSwellBoardVO boardVO) {
+		try {
+			dreamBoardDAO.insert(boardVO);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
-	public void delete(int idx) {
-		// TODO Auto-generated method stub
-		
+	public void delete(Long idx) {
+		try {
+			dreamBoardDAO.delete(idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void deleteByUserRef(int ref) {
-		// TODO Auto-generated method stub
-		
+	public void deleteByUserRef(Long ref) {
+		try {
+			dreamBoardDAO.deleteByUserRef(ref);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void update(DreamSwellBoardVO jungBoardVO) {
-		// TODO Auto-generated method stub
-		
+	public void update(DreamSwellBoardVO boardVO) {
+		try {
+			dreamBoardDAO.update(boardVO);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void updateLove(int idx) {
-		// TODO Auto-generated method stub
-		
+	public void updateLove(Long idx) {
+		try {
+			dreamBoardDAO.updateLove(idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void pupdateComment(int idx) {
-		// TODO Auto-generated method stub
-		
+	public void pupdateComment(Long idx) {
+		try {
+			dreamBoardDAO.pupdateComment(idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void mupdateComment(int idx) {
-		// TODO Auto-generated method stub
-		
+	public void mupdateComment(Long idx) {
+		try {
+			dreamBoardDAO.mupdateComment(idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public String findCategoryName(int categoryNum) {
-		// TODO Auto-generated method stub
-		return null;
+		String categoryName = "";
+		try {
+			categoryName = dreamCategoryDAO.selectCategoryBycategoryNum(categoryNum);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return categoryName;
+	}
+
+	@Override
+	public List<String> findCategoryList() {
+		List<String> categoryList = null;
+		try {
+			categoryList = dreamCategoryDAO.selectCategory();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return categoryList;
 	}
 
 }

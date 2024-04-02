@@ -55,6 +55,7 @@ public class CommentController {
 	 */
 	@DeleteMapping(value = "/delete")
 	public int deleteComment() {
+		return 0;
 		
 	}
 }

@@ -18,7 +18,7 @@ public interface DreamBoardDAO {
 	 */
 	ArrayList<DreamSwellBoardVO> selectScrollList(HashMap<String, Object> map) throws SQLException;
 	/** board의 최대 idx 리턴 */
-	int findLastItemIdx() throws SQLException;
+	Long findLastItemIdx() throws SQLException;
 	
 	DreamSwellBoardVO selectByIdx(Long idx) throws SQLException;
 	Long selectCount(HashMap<String, Object> map) throws SQLException;

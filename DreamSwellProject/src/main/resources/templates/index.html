@@ -15,5 +15,8 @@
 		반갑습니다. [[${user.nickName}]]님
 	</th:block>
 	<hr />
+	 <div th:each="board : ${sc}">
+	 	<p th:text="${board}"></p>
+	 </div>
 </body>
 </html>
