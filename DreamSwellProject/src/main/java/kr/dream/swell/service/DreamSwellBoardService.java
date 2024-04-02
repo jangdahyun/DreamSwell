@@ -6,38 +6,42 @@ import kr.dream.swell.vo.DreamSwellBoardVO;
 
 public interface DreamSwellBoardService {
 	// 1. 페이징
-	List<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, Long sizeOfPage, Integer categoryNum, String search);
+	List<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search);
 	
-	int findLastItemIdx();
+	Long findLastItemIdx();
 	// 2. 한개얻기
-	DreamSwellBoardVO selectByIdx(int idx);
+	DreamSwellBoardVO selectByIdx(Long idx);
 
 	// 3. 저장
-	void insert(DreamSwellBoardVO jungBoardVO);
+	void insert(DreamSwellBoardVO boardVO);
 	
 	// 5. 게시글 삭제
-	void delete(int idx);
+	void delete(Long idx);
 	
 	//5-1 userRef를 통한 게시글 삭제
-	void deleteByUserRef(int ref);
+	void deleteByUserRef(Long ref);
 	
 	// 6.수정
-	void update(DreamSwellBoardVO jungBoardVO);
+	void update(DreamSwellBoardVO boardVO);
 	
 	//7. 좋아요 누르기
-	void updateLove(int idx);
+	void updateLove(Long idx);
 	
 	//8. 댓글 쓴 개수
-	void pupdateComment(int idx);
+	void pupdateComment(Long idx);
 	
 	//9. 댓글 썼다 지운 다음 개수
-	void mupdateComment(int idx);
+	void mupdateComment(Long idx);
 	
 	
 	
 
 	// 카테고리 불러오기
 	String findCategoryName(int categoryNum);
+	
+	List<String> findCategoryList();
+
+
 	
 	
 }

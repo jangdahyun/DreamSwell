@@ -1,5 +1,7 @@
 package kr.dream.swell.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -7,18 +9,28 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jakarta.servlet.http.HttpSession;
+import kr.dream.swell.service.DreamSwellBoardService;
+import kr.dream.swell.vo.CommonVO;
+import kr.dream.swell.vo.DreamSwellBoardVO;
 
 @Controller
 @Configuration
 public class MainController {
 	
+	@Autowired
+	private DreamSwellBoardService boardService;
+	
 	@GetMapping("/")
-	public String mainPage(HttpSession session, Model model) {
+	public String mainPage(@ModelAttribute(value = "cv") CommonVO cv,HttpSession session, Model model) {
 		if(session.getAttribute("user") != null) {
 			model.addAttribute("user", session.getAttribute("user"));
 		}
+		List<DreamSwellBoardVO> pv =boardService.selectScrollBoard(boardService.findLastItemIdx()+1,cv.getS(), cv.getCategoryNum(), cv.getSearch());
+		model.addAttribute("sc", pv);
+		model.addAttribute("cv", cv);
 		return "index";
 	}
 	

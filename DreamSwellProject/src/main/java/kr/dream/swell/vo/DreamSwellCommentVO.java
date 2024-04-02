@@ -11,4 +11,6 @@ public class DreamSwellCommentVO {
 	private Long boardRef;		// 게시글 왜래키
 	private Date regDate;		// 게시일
 	private String content;		// 내용
+	
+	private DreamUserVO member;
 }

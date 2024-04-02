@@ -34,7 +34,7 @@ public class CommonVO {
 		setCurrentPage(p);
 	}
 	public void setS(int s) {
-		this.s = s;
+		this.s =  s;
 		setSizeOfPage(s);
 	}
 	public void setB(int b) {

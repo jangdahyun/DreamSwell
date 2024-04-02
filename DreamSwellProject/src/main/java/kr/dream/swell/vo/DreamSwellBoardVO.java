@@ -24,5 +24,7 @@ public class DreamSwellBoardVO {
 	private Integer category3;		// 테그3
 	//DB설계 끝
 	
+	private DreamUserVO member;
+	
 	private List<DreamSwellCategoryVO> categoryName1;	// 카테고리 이름
 }

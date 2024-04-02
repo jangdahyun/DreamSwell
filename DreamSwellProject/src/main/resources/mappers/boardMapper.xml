@@ -4,7 +4,7 @@
 
 	<select id="selectScrollList" parameterType="hashmap" resultType="DreamSwellBoardVO">
 		select
-			dreamswellBoard.*
+			dreamswellBoard.*,
 			(
 				SELECT
 					categoryName

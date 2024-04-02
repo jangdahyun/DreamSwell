@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd" >
+<mapper namespace="kr.dream.swell.dao.DreamFileBoardDAO">
+
+	<!-- 저장 -->
+	<insert id="insert" parameterType="DreamSwellFileBoardVO">
+		INSERT INTO dreamswellfileboard (idx, ref, filepath, url)
+    	VALUES (NULL, #{ref}, #{filepath}, #{url})
+	</insert>
+	
+	<!-- 게시글에해당하는 파일 주기 -->
+	<select id="selectfileByRef" parameterType="Long" resultType="DreamSwellFileBoardVO">
+		select * from dreamswellfileboard where ref = #{ref} order by idx 
+	</select>
+
+	
+	<select id="selectfileByIdx" parameterType="Long" resultType="DreamSwellFileBoardVO">
+		select * from dreamswellfileboard where idx=#{idx}
+	</select>
+	
+		
+	<select id="selectCount" parameterType="hashmap" resultType="Long">
+		select count(*) from dreamswellfileboard
+	</select>
+	
+	
+</mapper>
