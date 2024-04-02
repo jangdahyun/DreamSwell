@@ -1,6 +1,7 @@
 package kr.dream.swell.service;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import kr.dream.swell.dao.DreamUserDAO;
+import kr.dream.swell.oauth.KakaoResponse;
 import kr.dream.swell.oauth.NaverResponse;
 import kr.dream.swell.oauth.OAuth2Response;
 import kr.dream.swell.vo.CommonVO;
@@ -50,13 +52,11 @@ public class DreamUserService extends DefaultOAuth2UserService implements UserDe
 		OAuth2User oAuth2User = super.loadUser(userRequest);
 		String registrationId = userRequest.getClientRegistration().getRegistrationId(); // naver or kakao
 		log.info("attributes => {}", oAuth2User.getAttributes());
-		
-		
 		OAuth2Response oAuth2Response = null;
 		if(registrationId.equals("naver")) {
 			oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
 		} else if(registrationId.equals("kakao")) {
-			// oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
+			oAuth2Response = new KakaoResponse(oAuth2User.getAttributes());
 		} else {
 			return null;
 		}
@@ -68,7 +68,7 @@ public class DreamUserService extends DefaultOAuth2UserService implements UserDe
 			if(dreamUserVO == null) { // 신규회원인 경우
 				dreamUserVO = new DreamUserVO();
 				dreamUserVO.setUsername(username);
-				dreamUserVO.setPassword(" ");
+				dreamUserVO.setPassword(oAuth2Response.getProvider() + "_" + UUID.randomUUID());
 				dreamUserVO.setNickName(oAuth2Response.getNickName());
 				dreamUserVO.setEmail1(" ");
 				dreamUserVO.setEmail2(" ");
