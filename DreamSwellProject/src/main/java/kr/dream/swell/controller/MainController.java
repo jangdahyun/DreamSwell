@@ -28,7 +28,9 @@ public class MainController {
 		if(session.getAttribute("user") != null) {
 			model.addAttribute("user", session.getAttribute("user"));
 		}
+		List<String> categoryList= boardService.findCategoryList();
 		List<DreamSwellBoardVO> pv =boardService.selectScrollBoard(boardService.findLastItemIdx()+1,cv.getS(), cv.getCategoryNum(), cv.getSearch());
+		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("sc", pv);
 		model.addAttribute("cv", cv);
 		return "index";
@@ -45,7 +47,7 @@ public class MainController {
 	 * 초기 어드민들 패스워드 암호화하는 주소
 	 * @return
 	 */
-	// @GetMapping("/dbinit") // 기존에 등록된 비번을 암호화 해서 변경한다. 1번만 실행하고 지워줘라~~~
+	//@GetMapping("/dbinit") // 기존에 등록된 비번을 암호화 해서 변경한다. 1번만 실행하고 지워줘라~~~
 	public String dbInit() {
 		jdbcTemplate.update("update dreamUser set password=? where username=?", passwordEncoder.encode("123456"),"admin");
 		jdbcTemplate.update("update dreamUser set password=? where username=?", passwordEncoder.encode("123456"),"master");

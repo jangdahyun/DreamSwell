@@ -3,10 +3,10 @@
 <mapper namespace="kr.dream.swell.dao.DreamCategoryDAO">
 	<!-- 1. 카테고리 목록 보여주기 -->
 	<select id="selectCategory" resultType="string">
-		select categoryName from dreamSwellComment
+		select categoryName from dreamcategory
 	</select>
 	<!-- 2. categoryNum => categoryName -->
-	<select id="selectCategoryBycategoryNum" parameterType="int" resultType="string">
-		select categoryName from dreamSwellComment where idx = #{categoryNum}
+	<select id="selectCategoryBycategoryNum" parameterType="hashmap" resultType="string">
+		select categoryName from dreamcategory where idx = #{categoryNum}
 	</select>
 </mapper>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd" >
 <mapper namespace="kr.dream.swell.dao.DreamBoardDAO">
-
+	<!--여러개의 서브쿼리를 막기위해 MAX사용 하여 최댓값 반환 단일 결과만 받게-->
 	<select id="selectScrollList" parameterType="hashmap" resultType="DreamSwellBoardVO">
 		select
 			dreamswellBoard.*,
 			(
 				SELECT
-					categoryName
+					MAX(categoryName)
 				FROM
 					dreamcategory
 				WHERE
