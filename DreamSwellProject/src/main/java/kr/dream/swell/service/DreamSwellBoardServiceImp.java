@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 
 import kr.dream.swell.dao.DreamBoardDAO;
 import kr.dream.swell.dao.DreamCategoryDAO;
+import kr.dream.swell.dao.DreamFileBoardDAO;
 import kr.dream.swell.vo.DreamSwellBoardVO;
+import lombok.extern.slf4j.Slf4j;
 
 @Service(value = "dreamSwellBoardService")
+@Slf4j
 public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 
 	@Autowired
@@ -23,6 +26,9 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 	
 	@Autowired
 	private DreamCategoryDAO dreamCategoryDAO;
+	
+	@Autowired
+	private DreamFileBoardDAO fileBoardDAO;
 	
 	@Override
 	public ArrayList<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search) {
@@ -39,6 +45,23 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 			for(DreamSwellBoardVO boardVO : list) {
 				//유정 정보 
 				boardVO.setMember(dreamUserService.selectByIdx(boardVO.getUserRef()));
+				
+				//카테고리 정보 
+				List<String> categoryNames=new ArrayList<>();
+				 if (boardVO.getCategory1() != null) {
+		                categoryNames.add(dreamCategoryDAO.selectCategoryBycategoryNum(boardVO.getCategory1()));
+		            }
+		            if (boardVO.getCategory2() != null) {
+		                categoryNames.add(dreamCategoryDAO.selectCategoryBycategoryNum(boardVO.getCategory2()));
+		            }
+		            if (boardVO.getCategory3() != null) {
+		                categoryNames.add(dreamCategoryDAO.selectCategoryBycategoryNum(boardVO.getCategory3()));
+		            }
+		            log.debug("ㅇㅇ{}",categoryNames);
+		            boardVO.setCategoryName1(categoryNames);
+		            
+		            //파일 정보
+		            //boardVO.setFileboardVO(fileBoardDAO.);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

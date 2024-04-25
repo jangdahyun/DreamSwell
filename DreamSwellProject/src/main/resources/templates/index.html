@@ -4,8 +4,155 @@
 	<meta charset="UTF-8" />
 	<title>Document</title>
 </head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<style>
+	body{
+		min-width: 1140px;
+    	line-height: 1;
+    	margin: 0px;
+	    padding: 0px;
+	    border: 0px;
+	    font: inherit;
+	    vertical-align: baseline;
+	    display: block;
+	}
+	.header {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 5px;
+		border-bottom: 2px solid rgb(238, 238, 238); /* 밑줄 추가 */
+		color: #000; /* 텍스트 색상 */
+        }
+
+        .logo {
+			display: block;
+		    width: 150px;
+		    height: 100%;
+		    background: url(//t1.kakaocdn.net/together_image/svg/logo_mo.svg) center center / contain no-repeat;
+		    text-indent: -9999px;  
+        }
+
+        .menu {
+        	padding-left: 300px;
+            list-style-type: none;
+            display: flex;
+            justify-content: center; /* 가운데 정렬 */
+			font-size: 20px; /* 글꼴 크기 키우기 */
+        }
+
+        .menu li {
+            margin-right: 20px; /* 메뉴 간격 */
+        }
+
+        .menu li:last-child {
+            margin-right: 0; /* 마지막 메뉴 간격 제거 */
+        }
+
+        .menu a {
+            text-decoration: none; /* 링크에 밑줄 제거 */
+            color: #000; /* 메뉴 텍스트 색상 */
+        }
+
+        .menu a:hover {
+            color: #333; /* 호버 시 텍스트 색상 변경 */
+        }
+	.profile{
+		padding-left: 300px;
+	}
+	#search{
+		margin: 20px;
+	}
+	.give1{
+		width: 1120px;
+        margin: 0px auto;
+        padding: 30px 0px 0px;
+        display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    box-sizing: border-box;
+	}
+	.give2{
+		margin:0px 200px 50px 200px;
+		gap: 24px;
+		display: flex;
+	    justify-content: flex-start;
+	}
+	.giving1{
+		display: block;
+	    height: 100%;
+	    text-decoration: none;
+	}
+	.giving2.active{
+		border-bottom: 2px solid rgb(32, 32, 32);
+	}
+	.giving2{
+		display: block;
+	}
+	.mo{
+		color: rgb(32, 32, 32);
+	    font-size: 22px;
+	    font-style: normal;
+	    font-family: "KakaoBig Bold", "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", dotum, 돋움, sans-serif;
+	    overflow-wrap: break-word;
+	    -webkit-font-smoothing: antialiased;
+	    letter-spacing: -0.3px;
+	    font-weight: 600;
+	    line-height: 1.48;
+	    padding-bottom: 4px;
+	}
+	.giving3{
+		display: block;
+	    height: 100%;
+	    text-decoration: none;
+	}
+	.hu{
+		color: rgb(148, 148, 148);
+	    font-size: 22px;
+	    font-style: normal;
+	    font-family: "KakaoBig Bold", "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", dotum, 돋움, sans-serif;
+	    overflow-wrap: break-word;
+	    -webkit-font-smoothing: antialiased;
+	    letter-spacing: -0.3px;
+	    font-weight: 600;
+	    line-height: 1.48;
+		padding-bottom: 4px;
+	}
+	
+</style>
 <body>
-	홈페이지
+	<header class="header">
+        <!-- 로고 이미지 -->
+        <a href="/" class="logo">]
+        	카카오같이
+        </a>
+        
+        <!-- 메뉴 -->
+        <nav>
+            <ul class="menu">
+                <li><a href="#">홈</a></li>
+                <li><a href="#">서비스</a></li>
+                <li><a href="#">기부하기</a></li>
+                <li><a href="#">커뮤니티</a></li>
+                <li><a href="#">고객센터</a></li>
+            </ul>
+        </nav>
+        <div class="profile">dd</div>
+        <span class="material-symbols-outlined" id="search">search</span>
+    </header>
+    <div class="give1"></div>
+    	<div class="give2">
+    		<a class="giving1"  href="/?">
+    			<span class="mo giving2 active">모금중</span>
+    		</a>
+    		<a class="giving3"  href="/??">
+    			<span class="hu giving4 active">모금후기</span>
+    		</a>
+    	</div>
+    	<div class="category">
+    		<button type="button"   th:onclick="view(0)">전체</button>
+    		<button th:each="category : ${categoryList}"  type="button" th:value="${category}">[[${category}]]</button>
+    	</div>
 	<hr />
 	<th:block th:if="${session.user == null}">
 		<a href="/login">로그인하기</a>	
@@ -18,5 +165,6 @@
 	 <div th:each="board : ${sc}">
 	 	<p th:text="${board}"></p>
 	 </div>
+	 <p th:text="${categoryList}">
 </body>
 </html>

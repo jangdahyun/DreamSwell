@@ -26,5 +26,7 @@ public class DreamSwellBoardVO {
 	
 	private DreamUserVO member;
 	
-	private List<DreamSwellCategoryVO> categoryName1;	// 카테고리 이름
+	private List<String> categoryName1;	// 카테고리 이름
+	
+	private List<DreamSwellFileBoardVO> fileboardVO;
 }
