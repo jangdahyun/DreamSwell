@@ -23,8 +23,8 @@
 			]]>
 			<if test="search != null">
 				and (
-					dreamswellBoard.title like '%' || #{search} || '%'
-					or dreamswellBoard.content like '%' || #{search} || '%'
+					dreamswellBoard.title like  concat('%', #{search}, '%')
+					OR dreamswellBoard.content like concat('%', #{search}, '%')
 				)
 			</if>
 			<if test="categoryNum != null ">

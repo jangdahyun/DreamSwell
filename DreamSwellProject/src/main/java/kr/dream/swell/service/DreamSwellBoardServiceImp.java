@@ -37,11 +37,11 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("lastItemIdx", lastItemIdx);
 			map.put("sizeOfPage", sizeOfPage);
-			map.put("category1", categoryNum);
-			map.put("category2", categoryNum);
-			map.put("category3", categoryNum);
+			map.put("categoryNum", categoryNum);
 			map.put("search", search);
+			log.debug("맵:{}",map);
 			list= dreamBoardDAO.selectScrollList(map);
+			log.debug("리스트:{}",list);
 			for(DreamSwellBoardVO boardVO : list) {
 				//유정 정보 
 				boardVO.setMember(dreamUserService.selectByIdx(boardVO.getUserRef()));
