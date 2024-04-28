@@ -15,9 +15,11 @@ import jakarta.servlet.http.HttpSession;
 import kr.dream.swell.service.DreamSwellBoardService;
 import kr.dream.swell.vo.CommonVO;
 import kr.dream.swell.vo.DreamSwellBoardVO;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Configuration
+@Slf4j
 public class MainController {
 	
 	@Autowired
@@ -28,8 +30,10 @@ public class MainController {
 		if(session.getAttribute("user") != null) {
 			model.addAttribute("user", session.getAttribute("user"));
 		}
+		log.debug("안녕{}",cv);
 		List<String> categoryList= boardService.findCategoryList();
 		List<DreamSwellBoardVO> pv =boardService.selectScrollBoard(boardService.findLastItemIdx()+1,cv.getS(), cv.getCategoryNum(), cv.getSearch());
+		log.debug("안녕{}",pv);
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("sc", pv);
 		model.addAttribute("cv", cv);
