@@ -37,6 +37,7 @@ public class MainController {
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("sc", pv);
 		model.addAttribute("cv", cv);
+		
 		return "index";
 	}
 	
