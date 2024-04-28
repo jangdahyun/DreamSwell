@@ -57,6 +57,7 @@ public class SecurityConfig {
         	auth
         		.requestMatchers("/dbinit").permitAll()
 	        	.requestMatchers("/", "/oauth2/**", "/login/**").permitAll()
+	        	.requestMatchers("/images/**").permitAll()
 	        	.anyRequest().authenticated();
         });
 

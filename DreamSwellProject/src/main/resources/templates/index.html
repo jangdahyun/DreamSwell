@@ -5,6 +5,13 @@
 	<title>Document</title>
 </head>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kakao&display=swap">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <style>
 	body{
 		min-width: 1140px;
@@ -24,6 +31,15 @@
 		border-bottom: 2px solid rgb(238, 238, 238); /* 밑줄 추가 */
 		color: #000; /* 텍스트 색상 */
         }
+	ul {
+	   list-style:none;
+	   margin: 0px auto;
+	   padding-inline-start: 0px;
+	}
+
+	li {
+		display: inline-block;
+	}
 
         .logo {
 			display: block;
@@ -118,6 +134,73 @@
 	    line-height: 1.48;
 		padding-bottom: 4px;
 	}
+	.group_catelist {
+    width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+	}
+
+	.group_catelist .inner_catelist ul {
+    overflow: hidden;
+    padding: 30px 17px 48px;
+    text-align: center;
+	}
+
+	.group_catelist .inner_catelist li {
+    width: 90px;
+    margin: 15px;
+	}
+	
+	.group_catelist .inner_catelist a {
+	display: block;
+	text-decoration: none;
+	}
+	
+	.group_catelist .inner_catelist img {
+		display: block;
+		width: 50px;
+		height: 50px;
+		margin: 0px auto;
+		opacity: 0.7; /* 투명도를 50%로 설정 */
+	}
+	.group_catelist .inner_catelist span {
+	display: block;
+	padding-top: 15px;
+	font-size: 15px;
+	filter: grayscale(100%); 
+	 font-family: "Do Hyeon", sans-serif;
+	 font-weight: 400;
+}
+#Sort{
+ font-family: "Sunflower", sans-serif;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 20px;
+}
+.state_bar {
+	display: block;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 2px;
+    border-radius: 1px;
+    background-color: #ebebeb;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #007bff; /* 진행률 바의 색상 */
+    transition: width 0.5s ease-in-out; /* 애니메이션 효과 */
+}
+
 	
 </style>
 <body>
@@ -149,10 +232,84 @@
     			<span class="hu giving4 active">모금후기</span>
     		</a>
     	</div>
-    	<div class="category">
-    		<button type="button"   th:onclick="view(0)">전체</button>
-    		<button th:each="category : ${categoryList}"  type="button" th:value="${category}">[[${category}]]</button>
-    	</div>
+    	<div class="group_catelist">
+	<div class="inner_catelist">
+		<ul>
+			<li>
+				<a class=" category all"  href="/board/list?state=A&topic=">
+					<img src="images/categoryall.png">
+					<span>전체</span>
+				</a>
+			</li>
+			<li>
+				<a class=" category kid"   href="/board/list?state=A&topic=k">
+					<img src="images/categorykid.png">
+					<span>어린이</span>
+				</a>
+			</li>
+			<li>
+				<a class=" category old"   href="/board/list?state=A&topic=o">
+					<img src="images/categoryold.png">
+					<span>어르신</span>
+				</a>
+			</li>
+			<li>
+				<a class=" category disabled "   href="/board/list?state=A&topic=a">
+					<img src="images/categorydisable.png">
+					<span>장애인</span>
+				</a>
+			</li>
+			<li>
+				<a class="category earth"   href="/board/list?state=A&topic=e">
+					<img src="images/categoryearth.png">
+					<span>지구촌</span>
+				</a>
+			</li>
+			<li>
+				<a class=" category poll"   href="/board/list?state=A&topic=n">
+					<img src="images/categorypoll.png">
+					<span>어려운이웃</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div> <!-- end: group_catelist -->
+<div id="container" style="max-width: 1320px; margin: 50px auto; margin-bottom: 50px;">
+    <div id="board-header" style="display: flex; justify-content: space-between; width: 100%">
+        <div>
+            <!-- 여기에 내용을 추가하거나 원하는 스타일을 적용하세요 -->
+        </div>
+        <div style="text-align: right;" id="Sort">
+            <span style="margin-right: 30px;">최신순</span> <span>종료마감순</span>
+        </div>
+    </div>
+</div>
+<ul class="list_fund">
+	<li class="listcard">
+		<div th:each="board : ${sc}" class="fund-item" th:onclick="view([[${board.idx}]])">
+			<span class="img-box">
+				<div class="thumbnail"  th:if="${not #strings.isEmpty(board.thumbnail)}">
+				<!-- 썸네일 넣는 곳 -->
+				</div>
+			</span>
+			<span class="text-box">
+				<span class="title">[[${board.title}]]</span>
+				<span class="writer">[[${board.member.username}]]</span>
+				<span class="state_bar"></span>
+				<span class="currentmoney">[[${board.currentAmount}]]</span>
+				<input type="hidden" th:value="${board.targetAmount}">
+				<div class="progress-bar">
+    				<div class="progress-bar-fill" style="width: [[${(board.currentAmount / board.targetAmount) * 100}]]%;"></div>
+				</div>
+
+			</span>
+		</div>
+	</li>
+</ul>
+
+
+
+
 	<hr />
 	<th:block th:if="${session.user == null}">
 		<a href="/login">로그인하기</a>	
