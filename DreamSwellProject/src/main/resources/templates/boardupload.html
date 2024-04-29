@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.3/css/uikit.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- UIkit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.3/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.3/js/uikit-icons.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+    <style type="text/css">
+        body {
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            height: 100vh;
+        }
+
+        #jjj {
+            margin: auto;
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="file"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"],
+        input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover,
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        #file-drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 20px; /* 추가 */
+        }
+
+        #file-drop-area.highlight {
+            border-color: purple;
+        }
+
+        #file-drop-area .file-icon {
+            font-size: 50px;
+            color: #ccc;
+        }
+
+        #file-drop-area .file-drag-text {
+            font-size: 16px;
+            color: #777;
+        }
+
+        #file-display-area {
+            margin-top: 10px; /* 추가 */
+        }
+        
+        .file-info {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+       #delete-btn {
+   		background-color: #d44252;
+  		color: white;
+    	padding: 8px 25px;
+    	border: none;
+    	border-radius: 4px;
+    	cursor: pointer;
+    	font-size: 15px; /* 폰트 크기 추가 */
+    	width: 90px;
+    	height: 30px;
+    	margin-left: auto;
+    	display: flex; /* 내부 요소를 플렉스 박스로 설정 */
+    	align-items: center; /* 수직 정렬을 위한 설정 */
+    	
+		}
+
+		#delete-btn:hover {
+	   		 background-color: #d32f2f;
+		}
+        
+        .thumbnail {
+            margin-right: 10px;
+            width: 100px;
+            height: auto;
+        }
+        .category-imgs{
+        	text-align: center;
+        }
+		.category-item {
+			display: inline-block;
+			vertical-align: top; /* 이미지와 텍스트를 위쪽으로 정렬 */
+			margin-right: 20px; /* 이미지와 텍스트 사이의 간격 조정 */
+		}
+
+		.category-img {
+			max-width: 70px;
+			max-height: 70px;
+		}
+
+		.category-text {
+			display: block; /* 텍스트를 블록 요소로 설정하여 줄 바꿈 처리 */
+			margin-top: 5px; /* 이미지와 텍스트 사이의 간격 조정 */
+			font-size: 14px; /* 텍스트 크기 조정 */
+			text-align: center; /* 텍스트 가운데 정렬 */
+		}
+
+        .selected {
+            filter: brightness(50%);
+        }
+    </style>
+</head>
+<body>
+<div id="jjj">
+    <form action="boardUploadOk" method="post" enctype="multipart/form-data" id="insertForm">
+        <input type="text" name="title" id="title" placeholder="글 제목을 입력해 주세요." required="required"/>
+		<label for="stDate">시작 날짜:</label>
+		<input type="text" id="stDate" name="stDate">
+    	<label for="endDate">종료 날짜:</label>
+    	<input type="text" id="endDate" name="endDate">
+    	
+        <input type="hidden" name="targetAmount" value="4">
+        <input type="hidden" name="category1" id="category1" value="">
+        <input type="hidden" name="category2" id="category2" value="">
+        <input type="hidden" name="category3" id="category3" value="">
+        <div class="category-imgs">
+		    <div class="category-item">
+		        <img src="images/categorykid.png" class="category-img" data-value="1">
+		        <span class="category-text">어린이</span>
+		    </div>
+		    <div class="category-item">
+		        <img src="images/categoryold.png" class="category-img" data-value="2">
+		        <span class="category-text">어르신</span>
+		    </div>
+		    <div class="category-item">
+		        <img src="images/categorypoll.png" class="category-img" data-value="3">
+		        <span class="category-text">어려운이웃</span>
+		    </div>
+		    <div class="category-item">
+		        <img src="images/categorydisable.png" class="category-img" data-value="4">
+		        <span class="category-text">장애인</span>
+		    </div>
+		    <div class="category-item">
+		        <img src="images/categoryearth.png" class="category-img" data-value="5">
+		        <span class="category-text">지구촌</span>
+		    </div>
+		</div>
+
+        
+        <!-- 파일 선택 버튼 -->
+        <div id="file-drop-area">
+            <div class="file-icon uk-margin-bottom" uk-icon="icon: cloud-upload"></div>
+            <div class="file-drag-text">썸네일<br>이곳에 파일을 드래그하거나<br>클릭하여 파일을 선택하세요.</div>
+        </div>
+        <!-- 파일 드래그 앤 드롭 영역을 위한 파일 입력란 -->
+        <input type="file" id="fileInput" multiple hidden/>
+        <!-- 파일 정보를 표시할 영역 -->
+        <div id="file-display-area"></div>
+        <div id="files"></div>
+        <textarea name="content" id="content" placeholder="내용을 입력해 주세요." rows="10" required="required" style="resize: none"></textarea>
+        <input type="submit" id="submitBtn" value="글 올리기"/>
+        <input type="button" id="homeBtn" onclick="window.location.href='/'" value="Home으로"/>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script type="text/javascript">
+	// Flatpickr 초기화
+	flatpickr("#stDate", {
+	    dateFormat: "Y-m-d", // 날짜 형식 지정
+	    minDate: "today", // 오늘 이후의 날짜만 선택 가능하도록 설정
+	    onChange: function(selectedDates, dateStr, instance) {
+	        // 시작 날짜가 선택되면 종료 날짜의 최소 날짜를 시작 날짜로 설정
+	        flatpickr("#endDate", {
+	            minDate: dateStr,
+	            dateFormat: "Y-m-d" // 날짜 형식 지정
+	        });
+	    }
+	});
+	
+	// 종료 날짜에 Flatpickr 적용
+	flatpickr("#end-date", {
+	    dateFormat: "Y-m-d", // 날짜 형식 지정
+	    minDate: "today" // 오늘 이후의 날짜만 선택 가능하도록 설정
+	});
+
+    $(function () {
+        // 파일 선택 버튼 클릭 시 파일 선택 창 열기
+        $("#file-drop-area").click(function () {
+            $("#fileInput").click();
+        });
+        
+        // 카테고리 이미지 클릭 시 이벤트 처리
+        $(".category-img").click(function() {
+            // 클릭한 이미지의 data-value 속성 값을 읽어옴
+            const categoryValue = $(this).data("value");
+            
+            // 이미지의 선택 상태를 토글(toggle)
+            $(this).toggleClass("selected");
+
+            // 이미지의 선택 상태에 따라 카테고리 값을 업데이트
+            const selectedCategories = $(".selected").map(function() {
+                return $(this).data("value");
+            }).get();
+
+            if (selectedCategories.length > 3) {
+                // 선택한 카테고리가 3개를 초과하는 경우 마지막 선택을 취소함
+                $(this).toggleClass("selected");
+                alert("최대 3개의 카테고리를 선택할 수 있습니다.");
+            } else {
+                // 업데이트된 카테고리 값을 각 hidden input에 할당
+                $("#category1").val(selectedCategories[0] || "");
+                $("#category2").val(selectedCategories[1] || "");
+                $("#category3").val(selectedCategories[2] || "");
+            }
+        });
+
+
+        // 파일 선택 창에서 파일을 선택했을 때 및 파일 추가 함수
+        function handleFileSelect(files) {
+            const fileBox = document.querySelector("#files");
+            const currentFileCount = fileBox.querySelectorAll('input[type="file"]').length;
+
+            if (currentFileCount < 1) {
+                for (let i = 0; i < Math.min(4 - currentFileCount, files.length); i++) {
+                    const fileInfo = document.createElement('input');
+                    fileInfo.setAttribute("type", "file");
+                    fileInfo.setAttribute("name", "file");
+                    
+                    // 파일을 input에 추가
+                    const fileList = new DataTransfer();
+                    fileList.items.add(files[i]);
+                    const newFileList = fileList.files;
+                    fileInfo.files = newFileList;
+
+                    fileBox.appendChild(fileInfo);
+                
+                }
+                console.log(files);
+                showFileInfo();
+            } else {
+                alert("더 이상 파일을 추가할 수 없습니다.");
+            }
+        }
+
+        // 파일 선택 창에서 파일을 선택했을 때
+        $("#fileInput").change(function() {
+            // 선택한 파일 정보를 화면에 출력
+            const files = Array.from($(this)[0].files);
+            handleFileSelect(files);
+           
+        });
+
+        // 드래그 앤 드롭 영역 설정
+        const fileDropArea = document.getElementById('file-drop-area');
+
+        // dragover 이벤트 처리
+        fileDropArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            fileDropArea.classList.add('highlight');
+        });
+
+        // dragleave 이벤트 처리
+        fileDropArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            fileDropArea.classList.remove('highlight');
+        });
+
+        // drop 이벤트 처리
+        fileDropArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            fileDropArea.classList.remove('highlight');
+            const files = e.dataTransfer.files;
+            handleFileSelect(files);
+        });
+
+        // 파일 정보를 화면에 출력하는 함수
+        function showFileInfo() {
+            const fileDisplayArea = document.getElementById('file-display-area');
+            fileDisplayArea.innerHTML = ''; // 출력 영역 초기화
+
+            const files = document.querySelectorAll('#files input[type="file"]');
+            files.forEach(fileInput => {
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const fileInfo = document.createElement('div');
+                    fileInfo.classList.add('file-info'); // 파일 정보를 감싸는 div 요소에 file-info 클래스 추가
+
+                    const thumbnail = document.createElement('img');
+                    thumbnail.classList.add('thumbnail');
+                    thumbnail.src = URL.createObjectURL(file);
+                    fileInfo.appendChild(thumbnail);
+
+                    const fileInfoText = document.createElement('span');
+                    fileInfoText.textContent = `${file.name} (${file.type}) - ${file.size} bytes`;
+                    fileInfo.appendChild(fileInfoText);
+
+                    // 삭제 버튼 추가
+                    const deleteBtn = document.createElement('input');
+                    deleteBtn.setAttribute('type', 'button');
+                    deleteBtn.value = 'Delete';
+                    deleteBtn.setAttribute('id','delete-btn');
+                    deleteBtn.addEventListener("click", function(){
+                        const fileInfos = $('#file-display-area').children('.file-info'); // #file-display-area의 모든 .file-info 요소를 가져옴
+                        const index = fileInfos.index($(this).closest('.file-info')); // 현재 클릭된 .file-info 요소의 인덱스를 가져옴
+                        console.log("Index of clicked file-info: " + index);
+                        
+                        $(this).closest('.file-info').remove();
+                        $("#files").children().eq(index).remove();
+                    });
+                    fileInfo.appendChild(deleteBtn);
+
+                    fileDisplayArea.appendChild(fileInfo); // 파일 정보를 출력 영역에 추가
+                }
+            });
+        }
+
+       
+
+        // 폼체크
+        $("#insertForm").submit(function () {
+            let value = $("#title").val();
+            if (value.trim().length === 0) {
+                alert("제목을 입력해주세요.");
+                $("#title").val("");
+                $("#title").focus();
+                return false;
+            }
+            let content = $("#content").val();
+            if (content.trim().length === 0) {
+                alert("내용을 입력해주세요.");
+                $("#content").focus();
+                return false;
+            }
+            return true;
+        })
+
+    });
+</script>
+</body>
+</html>

@@ -3,6 +3,8 @@ package kr.dream.swell.vo;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -13,7 +15,9 @@ public class DreamSwellBoardVO {
 	private String title;			// 제목
 	private String content;			// 내용
 	private Date regDate;			// 게시일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date stDate;			// 시작일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;			// 종료일
 	private int targetAmount;		// 목표금액
 	private int currentAmount;		// 현재금액
@@ -29,4 +33,5 @@ public class DreamSwellBoardVO {
 	private List<String> categoryName1;	// 카테고리 이름
 	
 	private List<DreamSwellFileBoardVO> fileboardVO;
+	
 }

@@ -56,7 +56,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((auth) -> {
         	auth
         		.requestMatchers("/dbinit").permitAll()
-	        	.requestMatchers("/", "/oauth2/**", "/login/**").permitAll()
+	        	.requestMatchers("/**", "/oauth2/**", "/login/**").permitAll()
 	        	.requestMatchers("/images/**").permitAll()
 	        	.anyRequest().authenticated();
         });

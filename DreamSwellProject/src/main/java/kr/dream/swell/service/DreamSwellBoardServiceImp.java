@@ -61,7 +61,7 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 		            boardVO.setCategoryName1(categoryNames);
 		            
 		            //파일 정보
-		            //boardVO.setFileboardVO(fileBoardDAO.);
+		            boardVO.setFileboardVO(fileBoardDAO.selectfileByRef(boardVO.getIdx()));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

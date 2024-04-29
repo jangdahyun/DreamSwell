@@ -4,8 +4,8 @@
 
 	<!-- 저장 -->
 	<insert id="insert" parameterType="DreamSwellFileBoardVO">
-		INSERT INTO dreamswellfileboard (idx, ref, filepath, url)
-    	VALUES (NULL, #{ref}, #{filepath}, #{url})
+		INSERT INTO dreamswellfileboard (ref, filepath, url)
+    	VALUES (#{ref}, #{filepath}, #{url})
 	</insert>
 	
 	<!-- 게시글에해당하는 파일 주기 -->
