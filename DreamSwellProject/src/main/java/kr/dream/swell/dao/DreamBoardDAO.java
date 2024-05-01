@@ -29,4 +29,5 @@ public interface DreamBoardDAO {
 	void updateLove(Long idx) throws SQLException;
 	void pupdateComment(Long idx) throws SQLException;
 	void mupdateComment(Long idx) throws SQLException;
+	
 }
