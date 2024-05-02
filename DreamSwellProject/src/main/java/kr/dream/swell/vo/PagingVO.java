@@ -6,6 +6,7 @@ import java.util.List;
 
 public class PagingVO<T> {
 	// 1페이지 분량의 데이터를 저장할 리스트
+	
 	List<T> list;
 	
 	// 페이지 계산을 위한 변수들....
