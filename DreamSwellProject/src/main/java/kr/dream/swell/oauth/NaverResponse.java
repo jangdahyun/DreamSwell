@@ -29,4 +29,12 @@ public class NaverResponse implements OAuth2Response {
 	public String getNickName() {
 		return attribute.get("name").toString();
 	}
+	 @Override
+	    public String getProfileImageUrl() {
+	        // 네이버 API에서 프로필 이미지 URL을 가져와야 함
+	        // attribute에서 해당 정보를 추출하거나, API를 호출하여 가져올 수 있음
+	        // 이 예시에서는 attribute에서 프로필 이미지 URL을 추출하는 것으로 가정
+	        return attribute.get("profile_image").toString();
+	    }
+
 }

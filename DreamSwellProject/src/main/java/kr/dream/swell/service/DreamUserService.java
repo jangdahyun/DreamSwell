@@ -72,7 +72,7 @@ public class DreamUserService extends DefaultOAuth2UserService implements UserDe
 				dreamUserVO.setNickName(oAuth2Response.getNickName());
 				dreamUserVO.setEmail1(" ");
 				dreamUserVO.setEmail2(" ");
-				dreamUserVO.setProfile(null);
+				dreamUserVO.setProfile(oAuth2Response.getProfileImageUrl());
 				dreamUserVO.setRole(role);
 				dreamUserDAO.insert(dreamUserVO);
 			} else { // 기존 소셜로그인을 한 경우

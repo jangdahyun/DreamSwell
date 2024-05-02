@@ -140,6 +140,13 @@
         .selected {
             filter: brightness(50%);
         }
+        #stDate,
+        #endDate{
+        width: 40%;
+        }
+        #targetAmount{
+        width: 85%;
+        }
     </style>
 </head>
 <body>
@@ -150,8 +157,9 @@
 		<input type="text" id="stDate" name="stDate">
     	<label for="endDate">종료 날짜:</label>
     	<input type="text" id="endDate" name="endDate">
+    	<label for="targetAmount">목표 금액:</label>
+    	<input type="text" id="targetAmount" name="targetAmount" placeholder="숫자만 입력하세요." required th:text="원">
     	
-        <input type="hidden" name="targetAmount" value="4">
         <input type="hidden" name="category1" id="category1" value="">
         <input type="hidden" name="category2" id="category2" value="">
         <input type="hidden" name="category3" id="category3" value="">
@@ -350,6 +358,16 @@
         }
 
        
+        $(document).ready(function() {
+            $('#targetAmount').on('keyup', function() {
+                var inputValue = $(this).val();
+                if (/\D/g.test(inputValue)) {
+                    alert("숫자만 입력하세요.");
+                    $(this).val(inputValue.replace(/\D/g, ""));
+                } 
+            });
+        });
+
 
         // 폼체크
         $("#insertForm").submit(function () {
@@ -360,12 +378,42 @@
                 $("#title").focus();
                 return false;
             }
+            let stDate = $("#stDate").val();
+            if (stDate.trim().length === 0) {
+                alert("날짜를 입력해주세요.");
+                $("#stDate").focus();
+                return false;
+            }
+            let endDate = $("#endDate").val();
+            if (endDate.trim().length === 0) {
+                alert("날짜를 입력해주세요.");
+                $("#endDate").focus();
+                return false;
+            }
+            let targetAmount = $("#targetAmount").val();
+            if (targetAmount.trim().length === 0) {
+                alert("목표 금액을 설정해주세요.");
+                $("#targetAmount").focus();
+                return false;
+            }
+            let  category1= $("#category1").val();
+            if (category1.trim().length === 0) {
+                alert("카테고리를 골라주세요.");
+                $("#category1").focus();
+                return false;
+            }
+            let thumbnailCount = $("#file-display-area .thumbnail").length;
+            if (thumbnailCount === 0) {
+                alert("썸네일을 넣어주세요.");
+                return false;
+            }
             let content = $("#content").val();
             if (content.trim().length === 0) {
                 alert("내용을 입력해주세요.");
                 $("#content").focus();
                 return false;
             }
+            
             return true;
         })
 

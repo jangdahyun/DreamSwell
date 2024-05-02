@@ -210,8 +210,8 @@
 }
 .fund-item{
 	margin: 10px;
-	margin-bottom: 25px; 
-	width: 25%;
+    margin-bottom: 25px; 
+    width: calc(25% - 20px); /* 한 줄에 4개의 요소가 나오도록 너비 설정 */
 }
 #container{
 	max-width: 1320px; 
@@ -316,11 +316,10 @@ font-size: 15px;
 </div>
 <ul class="list_fund">
 	<li class="listcard"  style="width: 100%">
-		<div class="boxs" style="display: flex;">
+		<div class="boxs" style="display: flex; flex-wrap: wrap;">
 			<div th:each="board : ${sc}" class="fund-item" th:onclick="view([[${board.idx}]])">
 				<div class="thumbnail"  th:if="${ not #strings.isEmpty(board.thumbnail)}" style="height: 200px;">
-				<img style="width: 100px; height: 100px;" th:src="@{'./upload/' + ${board.thumbnail}}" alt="" />
-				<!-- 썸네일 넣는 곳 -->dddd
+				<img style="width: 100%; height: 100%;" th:src="@{'./upload/' + ${board.thumbnail}}" alt="" />
 				</div>
 				<span class="text-box">
 					<span class="title">[[${board.title}]]</span>
@@ -341,9 +340,6 @@ font-size: 15px;
 	</li>
 </ul>
 
-
-
-
 	<hr />
 	<th:block th:if="${session.user == null}">
 		<a href="/login">로그인하기</a>	
@@ -353,11 +349,7 @@ font-size: 15px;
 		반갑습니다. [[${user.nickName}]]님
 	</th:block>
 	<hr />
-	 <div th:each="board : ${sc}">
-	 	<p th:text="${board}"></p>
-	 </div>
-	 <p th:text="${categoryList}">
-	 <p th:text="${hh}">
+	<p th:text="${user}"></p>
 	 
 	 
 	 <div style="background: url('/image/asd.png') center/cover"></div>
