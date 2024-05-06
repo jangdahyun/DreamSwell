@@ -14,10 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import kr.dream.swell.service.DreamSwellBoardService;
 import kr.dream.swell.service.Fileservice;
@@ -57,8 +60,27 @@ public class MainController {
 		return "index";
 	}
 	
+	@GetMapping("/view/{idx}")
+	public String  donationPage(@PathVariable(value = "idx") Long idx, Model model, HttpServletRequest request, HttpServletResponse response) {
+		DreamSwellBoardVO dreamSwellBoardVO = boardService.selectByIdx(idx);
+		DreamUserVO userVO = (DreamUserVO) request.getSession().getAttribute("user");
+		
+		//삭제된 게시판에 들어가면 오류 처리
+		if(dreamSwellBoardVO == null) {
+			return "redirect:?error=notFound";
+		}
+		if (request.getSession().getAttribute("user")!=null) {
+			
+			model.addAttribute("currentUser", userVO.getIdx());
+		}
+		model.addAttribute("board",dreamSwellBoardVO);
+		
+		
+		return "page";
+	}
+	
 	@GetMapping("/boardupload")
-	public String galleryboard(@ModelAttribute(value = "category")DreamSwellCategoryVO categoryVO ) {
+	public String boardUpload(@ModelAttribute(value = "category")DreamSwellCategoryVO categoryVO ) {
 		return "boardupload";
 	}
 	
