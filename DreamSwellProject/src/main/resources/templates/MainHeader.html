@@ -1,0 +1,87 @@
+<style>
+	body{
+		min-width: 1140px;
+    	line-height: 1;
+    	margin: 0px;
+	    padding: 0px;
+	    border: 0px;
+	    font: inherit;
+	    vertical-align: baseline;
+	    display: block;
+	}
+	.header {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 5px;
+		border-bottom: 2px solid rgb(238, 238, 238); /* 밑줄 추가 */
+		color: #000; /* 텍스트 색상 */
+        }
+	ul {
+	   list-style:none;
+	   margin: 0px auto;
+	   padding-inline-start: 0px;
+	}
+
+	li {
+		display: inline-block;
+	}
+
+        .logo {
+			display: block;
+		    width: 150px;
+		    height: 100%;
+		    background: url(//t1.kakaocdn.net/together_image/svg/logo_mo.svg) center center / contain no-repeat;
+		    text-indent: -9999px;  
+        }
+
+        .menu {
+        	padding-left: 300px;
+            list-style-type: none;
+            display: flex;
+            justify-content: center; /* 가운데 정렬 */
+			font-size: 20px; /* 글꼴 크기 키우기 */
+        }
+
+        .menu li {
+            margin-right: 20px; /* 메뉴 간격 */
+        }
+
+        .menu li:last-child {
+            margin-right: 0; /* 마지막 메뉴 간격 제거 */
+        }
+
+        .menu a {
+            text-decoration: none; /* 링크에 밑줄 제거 */
+            color: #000; /* 메뉴 텍스트 색상 */
+        }
+
+        .menu a:hover {
+            color: #333; /* 호버 시 텍스트 색상 변경 */
+        }
+	.profile{
+		padding-left: 300px;
+	}
+	#search{
+		margin: 20px;
+	}
+</style>
+<header class="header">
+        <!-- 로고 이미지 -->
+        <a href="/" class="logo">]
+        	카카오같이
+        </a>
+        
+        <!-- 메뉴 -->
+        <nav>
+            <ul class="menu">
+                <li><a href="#">홈</a></li>
+                <li><a href="#">서비스</a></li>
+                <li><a href="#">기부하기</a></li>
+                <li><a href="#">커뮤니티</a></li>
+                <li><a href="#">고객센터</a></li>
+            </ul>
+        </nav>
+        <div class="profile">dd</div>
+        <span class="material-symbols-outlined" id="search">search</span>
+    </header>

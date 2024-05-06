@@ -12,73 +12,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sunflower:wght@300&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
-	body{
-		min-width: 1140px;
-    	line-height: 1;
-    	margin: 0px;
-	    padding: 0px;
-	    border: 0px;
-	    font: inherit;
-	    vertical-align: baseline;
-	    display: block;
-	}
-	.header {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 5px;
-		border-bottom: 2px solid rgb(238, 238, 238); /* 밑줄 추가 */
-		color: #000; /* 텍스트 색상 */
-        }
-	ul {
-	   list-style:none;
-	   margin: 0px auto;
-	   padding-inline-start: 0px;
-	}
 
-	li {
-		display: inline-block;
-	}
-
-        .logo {
-			display: block;
-		    width: 150px;
-		    height: 100%;
-		    background: url(//t1.kakaocdn.net/together_image/svg/logo_mo.svg) center center / contain no-repeat;
-		    text-indent: -9999px;  
-        }
-
-        .menu {
-        	padding-left: 300px;
-            list-style-type: none;
-            display: flex;
-            justify-content: center; /* 가운데 정렬 */
-			font-size: 20px; /* 글꼴 크기 키우기 */
-        }
-
-        .menu li {
-            margin-right: 20px; /* 메뉴 간격 */
-        }
-
-        .menu li:last-child {
-            margin-right: 0; /* 마지막 메뉴 간격 제거 */
-        }
-
-        .menu a {
-            text-decoration: none; /* 링크에 밑줄 제거 */
-            color: #000; /* 메뉴 텍스트 색상 */
-        }
-
-        .menu a:hover {
-            color: #333; /* 호버 시 텍스트 색상 변경 */
-        }
-	.profile{
-		padding-left: 300px;
-	}
-	#search{
-		margin: 20px;
-	}
 	.give1{
 		width: 1120px;
         margin: 0px auto;
@@ -234,25 +170,9 @@ font-size: 15px;
 	
 </style>
 <body>
-	<header class="header">
-        <!-- 로고 이미지 -->
-        <a href="/" class="logo">]
-        	카카오같이
-        </a>
-        
-        <!-- 메뉴 -->
-        <nav>
-            <ul class="menu">
-                <li><a href="#">홈</a></li>
-                <li><a href="#">서비스</a></li>
-                <li><a href="#">기부하기</a></li>
-                <li><a href="#">커뮤니티</a></li>
-                <li><a href="#">고객센터</a></li>
-            </ul>
-        </nav>
-        <div class="profile">dd</div>
-        <span class="material-symbols-outlined" id="search">search</span>
-    </header>
+
+	<th:block th:insert="~{/MainHeader.html}"></th:block>
+	
     <div class="give1"></div>
     	<div class="give2">
     		<a class="giving1"  href="/?">
@@ -350,8 +270,50 @@ font-size: 15px;
 	</th:block>
 	<hr />
 	<p th:text="${user}"></p>
+	<p th:text="${sc}"></p>
 	 
 	 
 	 <div style="background: url('/image/asd.png') center/cover"></div>
 </body>
+<script type="text/javascript" th:inline="javascript">
+	let lastItemIdx=0;
+	const sizeOfPage=20;
+	const categoryNum=4;
+	let search = ''; // 초기 검색어
+	
+	$(function(){
+		findLastItemIdx();
+		window.addEventListener('scroll', scrollHandler);
+	})
+
+	function scrollHandler() {
+       // 현재 스크롤 위치를 가져옵니다.
+       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+       // 현재 브라우저 창의 높이를 가져옵니다.
+       const windowHeight = window.innerHeight;
+       // 문서의 총 높이를 가져옵니다.
+       const documentHeight = Math.max(
+           document.body.scrollHeight, document.documentElement.scrollHeight,
+           document.body.offsetHeight, document.documentElement.offsetHeight,
+           document.body.clientHeight, document.documentElement.clientHeight
+       );
+		 console.log(scrollTop);
+		 console.log(windowHeight);
+		 console.log(documentHeight);
+       // 현재 스크롤 위치와 브라우저 창의 높이, 문서의 총 높이를 비교하여 맨 아래에 도달했는지 확인합니다.
+       if (scrollTop + windowHeight +0.4 >= documentHeight) {
+           NextPage();
+       }
+   }
+	function view(idx) {
+		location.href = "/view/" + idx
+	}
+	 //back 눌렀을때 리로드하는 함수
+    window.onpageshow = function(event) {
+    	if (event.persisted) {
+    		document.location.reload();
+    	}
+    };
+
+</script>
 </html>
