@@ -315,5 +315,55 @@ font-size: 15px;
     	}
     };
 
+    
+    
+ // 다음 페이지를 로드하는 함수
+    function NextPage() {
+   	 window.removeEventListener('scroll', scrollHandler)
+		    axios.post('/getScrollItem', {
+		    	'lastItemIdx': lastItemIdx,
+		        'search': search,
+		        'sizeOfPage': sizeOfPage,
+		        'categoryNum': categoryNum,
+		    }).then(function (res) {
+		        const data = res.data;
+		        console.log(data);
+		        if(data.length==0){
+		        	alert("더 이상 없습니다")
+		        }else{
+			        data.forEach(board => {
+						const formattedAmount = new Intl.NumberFormat('ko-KR').format(board.currentAmount);
+	                	const formattedString = formattedAmount + '원';
+			            const content = `
+			            	<div class="fund-item" th:onclick="view(${board.idx})">
+								<div class="thumbnail"  ${board.thumbnail.length > 0 ? '' : 'style="display: none;"' }>
+									<img style="width: 100%; height: 100%;" src="./upload/${board.thumbnail}}" alt="" />
+								</div>
+								<span class="text-box">
+								<span class="title">${board.title}</span>
+								<br />
+								<span class="writer" >${board.member.username}</span>
+								<span class="state_bar"></span>
+								<div class="progress-bar">
+				    				<div class="progress-bar-fill" th:style="'width: ' + ${((board.currentAmount * 1.0) / board.targetAmount * 100)} + '%'"></div>
+								</div>
+								<div style="display: inline-flex;  justify-content: space-between; width: 100%;">
+									<span class="currentmoney">${formattedString}</span>
+									<span class="progress-text">${((board.currentAmount * 1.0) / board.targetAmount * 100) + '%'}</span>
+								</div>
+								<input type="hidden" th:value="${board.targetAmount}">
+								</span>
+							</div>
+			            `;
+			            // 새로운 내용을 기존의 내용 아래에 추가
+			            $(".gallery").append(content);	// 새로운 내용을 추가하고
+			            findLastItemIdx();				// lastItemIdx를 새로 구함
+			        });
+			        window.addEventListener('scroll', scrollHandler);
+	        }
+	    }).catch(function (error) {
+	        console.error('다음 페이지 로드 실패:', error);
+	    })
+	}
 </script>
 </html>

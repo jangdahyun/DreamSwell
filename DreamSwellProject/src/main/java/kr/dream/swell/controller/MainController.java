@@ -2,6 +2,7 @@ package kr.dream.swell.controller;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -144,7 +147,14 @@ public class MainController {
         return "boardupload";
 	}
 
-	
+	@PostMapping("/getScrollItem")
+	@ResponseBody
+	public List<DreamSwellBoardVO> getScrollItem(@RequestBody Map<String, String> map){
+		log.info("getScrollItem : {}", map);
+		List<DreamSwellBoardVO> result = boardService.selectScrollBoard((long) Integer.parseInt(map.get("lastItemIdx")), Integer.parseInt(map.get("sizeOfPage")), Integer.parseInt(map.get("categoryNum")), map.get("search"));
+		return result;
+	}
+
 	
 	// 딱! 한번만 실행해야한다!
 	@Autowired
