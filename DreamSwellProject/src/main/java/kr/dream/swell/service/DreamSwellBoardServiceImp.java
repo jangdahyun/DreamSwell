@@ -1,6 +1,7 @@
 package kr.dream.swell.service;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 	private DreamFileBoardDAO fileBoardDAO;
 	
 	@Override
-	public ArrayList<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search) {
+	public ArrayList<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search, LocalDate endDate ) {
 		ArrayList<DreamSwellBoardVO> list = null;
 		try {
 			HashMap<String, Object> map = new HashMap<>();

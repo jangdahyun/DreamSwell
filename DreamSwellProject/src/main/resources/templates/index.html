@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <style>
 
 	.give1{
@@ -186,39 +187,39 @@ font-size: 15px;
 	<div class="inner_catelist">
 		<ul>
 			<li>
-				<a class=" category all"  href="/board/list?state=A&topic=">
+				<a class=" category all"  href="/">
 					<img src="images/categoryall.png">
 					<span>전체</span>
 				</a>
 			</li>
 			<li>
-				<a class=" category kid"   href="/board/list?state=A&topic=k">
+				<a class=" category kid"   href="/?categoryNum=1">
 					<img src="images/categorykid.png">
 					<span>어린이</span>
 				</a>
 			</li>
 			<li>
-				<a class=" category old"   href="/board/list?state=A&topic=o">
+				<a class=" category old"   href="/?categoryNum=2">
 					<img src="images/categoryold.png">
 					<span>어르신</span>
 				</a>
 			</li>
 			<li>
-				<a class=" category disabled "   href="/board/list?state=A&topic=a">
-					<img src="images/categorydisable.png">
-					<span>장애인</span>
+				<a class=" category poll "   href="/?categoryNum=3">
+					<img src="images/categorypoll.png">
+					<span>어려운이웃</span>
 				</a>
 			</li>
 			<li>
-				<a class="category earth"   href="/board/list?state=A&topic=e">
+				<a class="category earth"   href="/?categoryNum=4">
 					<img src="images/categoryearth.png">
 					<span>지구촌</span>
 				</a>
 			</li>
 			<li>
-				<a class=" category poll"   href="/board/list?state=A&topic=n">
-					<img src="images/categorypoll.png">
-					<span>어려운이웃</span>
+				<a class=" category disabled"   href="/?categoryNum=5">
+					<img src="images/categorydisable.png">
+					<span>장애인</span>
 				</a>
 			</li>
 		</ul>
@@ -238,8 +239,9 @@ font-size: 15px;
 	<li class="listcard"  style="width: 100%">
 		<div class="boxs" style="display: flex; flex-wrap: wrap;">
 			<div th:each="board : ${sc}" class="fund-item" th:onclick="view([[${board.idx}]])">
-				<div class="thumbnail"  th:if="${ not #strings.isEmpty(board.thumbnail)}" style="height: 200px;">
-				<img style="width: 100%; height: 100%;" th:src="@{'./upload/' + ${board.thumbnail}}" alt="" />
+			<input type="hidden" class="idx" th:value="${board.idx}"/>
+				<div class="thumbnail"  th:style="${#strings.isEmpty(board.thumbnail)} ? 'display: none;' : 'height: 200px;'">
+					<img style="width: 100%; height: 100%;" th:src="@{'./upload/' + ${board.thumbnail}}" alt="" />
 				</div>
 				<span class="text-box">
 					<span class="title">[[${board.title}]]</span>
@@ -268,17 +270,11 @@ font-size: 15px;
 		<a href="/logout">로그아웃하기</a>		
 		반갑습니다. [[${user.nickName}]]님
 	</th:block>
-	<hr />
-	<p th:text="${user}"></p>
-	<p th:text="${sc}"></p>
-	 
-	 
-	 <div style="background: url('/image/asd.png') center/cover"></div>
 </body>
 <script type="text/javascript" th:inline="javascript">
 	let lastItemIdx=0;
 	const sizeOfPage=20;
-	const categoryNum=4;
+	const categoryNum='';
 	let search = ''; // 초기 검색어
 	
 	$(function(){
@@ -301,7 +297,7 @@ font-size: 15px;
 		 console.log(windowHeight);
 		 console.log(documentHeight);
        // 현재 스크롤 위치와 브라우저 창의 높이, 문서의 총 높이를 비교하여 맨 아래에 도달했는지 확인합니다.
-       if (scrollTop + windowHeight +0.4 >= documentHeight) {
+       if (scrollTop + windowHeight >= documentHeight) {
            NextPage();
        }
    }
@@ -315,6 +311,13 @@ font-size: 15px;
     	}
     };
 
+    function findLastItemIdx() {
+		let fundItems = document.querySelectorAll(".fund-item");
+    	let lastFundItem = fundItems[fundItems.length - 1];
+        let inputIdx = lastFundItem.querySelector('.idx');
+        lastItemIdx = inputIdx.value;
+        console.log(lastItemIdx);
+    }
     
     
  // 다음 페이지를 로드하는 함수
@@ -324,7 +327,6 @@ font-size: 15px;
 		    	'lastItemIdx': lastItemIdx,
 		        'search': search,
 		        'sizeOfPage': sizeOfPage,
-		        'categoryNum': categoryNum,
 		    }).then(function (res) {
 		        const data = res.data;
 		        console.log(data);
@@ -336,8 +338,9 @@ font-size: 15px;
 	                	const formattedString = formattedAmount + '원';
 			            const content = `
 			            	<div class="fund-item" th:onclick="view(${board.idx})">
-								<div class="thumbnail"  ${board.thumbnail.length > 0 ? '' : 'style="display: none;"' }>
-									<img style="width: 100%; height: 100%;" src="./upload/${board.thumbnail}}" alt="" />
+			            	<input type="hidden" class="idx" value="${board.idx}"/>
+			            		<div class="thumbnail" style="height: 200px; display: ${(board.thumbnail.length > 0 ? 'block' : '')}">
+			                		<img style="width: 100%; height: 100%;" src="${board.thumbnail.length > 0 ? './upload/' + board.thumbnail : '/images/noimg.webp'}" alt="" />
 								</div>
 								<span class="text-box">
 								<span class="title">${board.title}</span>
@@ -345,7 +348,7 @@ font-size: 15px;
 								<span class="writer" >${board.member.username}</span>
 								<span class="state_bar"></span>
 								<div class="progress-bar">
-				    				<div class="progress-bar-fill" th:style="'width: ' + ${((board.currentAmount * 1.0) / board.targetAmount * 100)} + '%'"></div>
+				    				<div class="progress-bar-fill" style="width : ${(board.currentAmount * 1.0) / board.targetAmount * 100}%"></div>
 								</div>
 								<div style="display: inline-flex;  justify-content: space-between; width: 100%;">
 									<span class="currentmoney">${formattedString}</span>
@@ -356,8 +359,9 @@ font-size: 15px;
 							</div>
 			            `;
 			            // 새로운 내용을 기존의 내용 아래에 추가
-			            $(".gallery").append(content);	// 새로운 내용을 추가하고
+			            $(".boxs").append(content);	// 새로운 내용을 추가하고
 			            findLastItemIdx();				// lastItemIdx를 새로 구함
+			            
 			        });
 			        window.addEventListener('scroll', scrollHandler);
 	        }

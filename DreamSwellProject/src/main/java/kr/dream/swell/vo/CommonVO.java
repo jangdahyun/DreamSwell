@@ -1,5 +1,7 @@
 package kr.dream.swell.vo;
 
+import java.time.LocalDate;
+
 import lombok.Getter;
 import lombok.ToString;
 
@@ -15,6 +17,7 @@ public class CommonVO {
 	private int b = 10;
 	private int idx = 0;
 	private Integer categoryNum;
+	private LocalDate endDate;
 	private String condition;
 	private Integer userRef;
 	// 검색어를 넣어놧는데 다른 곳으로 갈수 있음
@@ -23,7 +26,7 @@ public class CommonVO {
 	private String orderCode;
 	
 	private int currentPage=1;
-	private int sizeOfPage=10;
+	private int sizeOfPage=20;
 	private int sizeOfBlock=10;
 	private String mode = "insert";
 	
@@ -61,6 +64,9 @@ public class CommonVO {
 	}
 	public void setCategoryNum(Integer categoryNum) {
 		this.categoryNum = categoryNum;
+	}
+	public void setendDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 	public void setOrderCode(String orderCode) {
 		this.orderCode = orderCode;

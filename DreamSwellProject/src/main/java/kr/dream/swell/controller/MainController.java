@@ -53,7 +53,7 @@ public class MainController {
 		DreamSwellFileBoardVO boardVO = new DreamSwellFileBoardVO();
 		log.debug("안녕{}",cv);
 		List<String> categoryList= boardService.findCategoryList();
-		List<DreamSwellBoardVO> pv =boardService.selectScrollBoard(boardService.findLastItemIdx()+1,cv.getS(), cv.getCategoryNum(), cv.getSearch());
+		List<DreamSwellBoardVO> pv =boardService.selectScrollBoard(boardService.findLastItemIdx()+1,cv.getS(), cv.getCategoryNum(), cv.getSearch(), cv.getEndDate());
 		log.debug("안녕{}",pv);
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("sc", pv);
@@ -151,7 +151,7 @@ public class MainController {
 	@ResponseBody
 	public List<DreamSwellBoardVO> getScrollItem(@RequestBody Map<String, String> map){
 		log.info("getScrollItem : {}", map);
-		List<DreamSwellBoardVO> result = boardService.selectScrollBoard((long) Integer.parseInt(map.get("lastItemIdx")), Integer.parseInt(map.get("sizeOfPage")), Integer.parseInt(map.get("categoryNum")), map.get("search"));
+		List<DreamSwellBoardVO> result = boardService.selectScrollBoard((long) Integer.parseInt(map.get("lastItemIdx")), Integer.parseInt(map.get("sizeOfPage")), null, map.get("search"), null);
 		return result;
 	}
 

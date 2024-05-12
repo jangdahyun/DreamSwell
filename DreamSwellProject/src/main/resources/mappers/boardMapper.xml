@@ -34,7 +34,14 @@
 					OR dreamswellBoard.category3 = #{categoryNum}
 				 )
 			</if>
-			
+			<if test="endDate != null">
+            and (
+                <![CDATA[
+                    dreamswellBoard.endDate > #{endDate}
+                ]]>
+            )
+        </if>
+        
 		order by
 			dreamswellBoard.idx DESC
 		LIMIT #{sizeOfPage}
