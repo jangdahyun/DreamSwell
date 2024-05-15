@@ -1,13 +1,12 @@
 package kr.dream.swell.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import kr.dream.swell.vo.DreamSwellBoardVO;
 
 public interface DreamSwellBoardService {
 	// 1. 페이징
-	List<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search, LocalDate endDate);
+	List<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search, String endDate, String end);
 	
 	Long findLastItemIdx();
 	// 2. 한개얻기

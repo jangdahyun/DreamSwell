@@ -36,13 +36,13 @@
 	    height: 100%;
 	    text-decoration: none;
 	}
-	.giving2.active{
+	.giving4.active{
 		border-bottom: 2px solid rgb(32, 32, 32);
 	}
 	.giving2{
 		display: block;
 	}
-	.mo{
+	.hu{
 		color: rgb(32, 32, 32);
 	    font-size: 22px;
 	    font-style: normal;
@@ -59,7 +59,7 @@
 	    height: 100%;
 	    text-decoration: none;
 	}
-	.hu{
+	.mo{
 		color: rgb(148, 148, 148);
 	    font-size: 22px;
 	    font-style: normal;
@@ -187,37 +187,37 @@ font-size: 15px;
 	<div class="inner_catelist">
 		<ul>
 			<li>
-				<a class=" category all"  href="/">
+				<a class=" category all"  href="/endpage">
 					<img src="images/categoryall.png">
 					<span>전체</span>
 				</a>
 			</li>
 			<li>
-				<a class=" category kid"   href="/?categoryNum=1">
+				<a class=" category kid"   href="endpage?categoryNum=1">
 					<img src="images/categorykid.png">
 					<span>어린이</span>
 				</a>
 			</li>
 			<li>
-				<a class=" category old"   href="/?categoryNum=2">
+				<a class=" category old"   href="endpage?categoryNum=2">
 					<img src="images/categoryold.png">
 					<span>어르신</span>
 				</a>
 			</li>
 			<li>
-				<a class=" category poll "   href="/?categoryNum=3">
+				<a class=" category poll "   href="endpage?categoryNum=3">
 					<img src="images/categorypoll.png">
 					<span>어려운이웃</span>
 				</a>
 			</li>
 			<li>
-				<a class="category earth"   href="/?categoryNum=4">
+				<a class="category earth"   href="endpage?categoryNum=4">
 					<img src="images/categoryearth.png">
 					<span>지구촌</span>
 				</a>
 			</li>
 			<li>
-				<a class=" category disabled"   href="/?categoryNum=5">
+				<a class=" category disabled"   href="endpage?categoryNum=5">
 					<img src="images/categorydisable.png">
 					<span>장애인</span>
 				</a>
@@ -277,7 +277,7 @@ font-size: 15px;
 	const categoryNum='';
 	let search = ''; // 초기 검색어
 	let endDate = new Date().toISOString().split('T')[0];
-	 console.log(endDate)
+	console.log(endDate)
 	let end = '';
 	$(function(){
 		findLastItemIdx();
@@ -299,7 +299,7 @@ font-size: 15px;
 		 console.log(windowHeight);
 		 console.log(documentHeight);
        // 현재 스크롤 위치와 브라우저 창의 높이, 문서의 총 높이를 비교하여 맨 아래에 도달했는지 확인합니다.
-       if (scrollTop + windowHeight >= documentHeight) {
+       if (scrollTop + windowHeight +1 >= documentHeight) {
            NextPage();
        }
    }
@@ -330,6 +330,7 @@ font-size: 15px;
 		        'search': search,
 		        'sizeOfPage': sizeOfPage,
 		        'endDate': endDate,
+		        'end': endDate,
 		    }).then(function (res) {
 		        const data = res.data;
 		        console.log(data);

@@ -1,6 +1,6 @@
 package kr.dream.swell.vo;
 
-import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -17,7 +17,9 @@ public class CommonVO {
 	private int b = 10;
 	private int idx = 0;
 	private Integer categoryNum;
-	private LocalDate endDate;
+	private String endDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private String end;
 	private String condition;
 	private Integer userRef;
 	// 검색어를 넣어놧는데 다른 곳으로 갈수 있음
@@ -65,8 +67,11 @@ public class CommonVO {
 	public void setCategoryNum(Integer categoryNum) {
 		this.categoryNum = categoryNum;
 	}
-	public void setendDate(LocalDate endDate) {
+	public void setendDate(String endDate) {
 		this.endDate = endDate;
+	}
+	public void setend(String end) {
+		this.end = end;
 	}
 	public void setOrderCode(String orderCode) {
 		this.orderCode = orderCode;

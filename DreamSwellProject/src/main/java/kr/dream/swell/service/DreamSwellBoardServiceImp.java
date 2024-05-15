@@ -32,7 +32,7 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 	private DreamFileBoardDAO fileBoardDAO;
 	
 	@Override
-	public ArrayList<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search, LocalDate endDate ) {
+	public ArrayList<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search, String endDate, String end ) {
 		ArrayList<DreamSwellBoardVO> list = null;
 		try {
 			HashMap<String, Object> map = new HashMap<>();
@@ -40,9 +40,12 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 			map.put("sizeOfPage", sizeOfPage);
 			map.put("categoryNum", categoryNum);
 			map.put("search", search);
-			log.debug("맵:{}",map);
+			map.put("endDate", LocalDate.now());
+			map.put("end", end);
+			
 			list= dreamBoardDAO.selectScrollList(map);
 			log.debug("리스트:{}",list);
+			log.debug("리스트2:{}",map);
 			for(DreamSwellBoardVO boardVO : list) {
 				//유정 정보 
 				boardVO.setMember(dreamUserService.selectByIdx(boardVO.getUserRef()));
@@ -59,6 +62,7 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 		                categoryNames.add(dreamCategoryDAO.selectCategoryBycategoryNum(boardVO.getCategory3()));
 		            }
 		            log.debug("ㅇㅇ{}",categoryNames);
+		            log.debug("맵:{}",map);
 		            boardVO.setCategoryName1(categoryNames);
 		            
 		            //파일 정보

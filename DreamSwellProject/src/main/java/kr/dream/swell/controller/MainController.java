@@ -1,6 +1,8 @@
 package kr.dream.swell.controller;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -51,9 +53,9 @@ public class MainController {
 			model.addAttribute("user", session.getAttribute("user"));
 		}
 		DreamSwellFileBoardVO boardVO = new DreamSwellFileBoardVO();
-		log.debug("안녕{}",cv);
+		log.debug("안녕22{}",cv);
 		List<String> categoryList= boardService.findCategoryList();
-		List<DreamSwellBoardVO> pv =boardService.selectScrollBoard(boardService.findLastItemIdx()+1,cv.getS(), cv.getCategoryNum(), cv.getSearch(), cv.getEndDate());
+		List<DreamSwellBoardVO> pv =boardService.selectScrollBoard(boardService.findLastItemIdx()+1,cv.getS(), cv.getCategoryNum(), cv.getSearch(), cv.getEndDate(), cv.getEnd());
 		log.debug("안녕{}",pv);
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("sc", pv);
@@ -61,6 +63,26 @@ public class MainController {
 		model.addAttribute("hh", boardVO);
 		
 		return "index";
+	}
+	
+	@GetMapping("/endpage")
+	public String endpage(@ModelAttribute(value = "cv") CommonVO cv,HttpSession session, Model model) {
+		if(session.getAttribute("user") != null) {
+			model.addAttribute("user", session.getAttribute("user"));
+		}
+		DreamSwellFileBoardVO boardVO = new DreamSwellFileBoardVO();
+		log.debug("안녕22{}",cv);
+		String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		cv.setend(currentDate);
+		List<String> categoryList= boardService.findCategoryList();
+		List<DreamSwellBoardVO> pv =boardService.selectScrollBoard(boardService.findLastItemIdx()+1,cv.getS(), cv.getCategoryNum(), cv.getSearch(), cv.getEndDate(), cv.getEnd());
+		log.debug("안녕{}",pv);
+		model.addAttribute("categoryList",categoryList);
+		model.addAttribute("sc", pv);
+		model.addAttribute("cv", cv);
+		model.addAttribute("hh", boardVO);
+		
+		return "endpage";
 	}
 	
 	@GetMapping("/view/{idx}")
@@ -150,8 +172,9 @@ public class MainController {
 	@PostMapping("/getScrollItem")
 	@ResponseBody
 	public List<DreamSwellBoardVO> getScrollItem(@RequestBody Map<String, String> map){
-		log.info("getScrollItem : {}", map);
-		List<DreamSwellBoardVO> result = boardService.selectScrollBoard((long) Integer.parseInt(map.get("lastItemIdx")), Integer.parseInt(map.get("sizeOfPage")), null, map.get("search"), null);
+		log.debug("getScrollItem : {}", map);
+		 CommonVO cv = new CommonVO();
+		List<DreamSwellBoardVO> result = boardService.selectScrollBoard((long) Integer.parseInt(map.get("lastItemIdx")), Integer.parseInt(map.get("sizeOfPage")), null, map.get("search"), map.get("endDate"), map.get("end"));
 		return result;
 	}
 
