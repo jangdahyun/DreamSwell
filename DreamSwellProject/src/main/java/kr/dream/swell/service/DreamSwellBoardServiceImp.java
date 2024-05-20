@@ -76,6 +76,48 @@ public class DreamSwellBoardServiceImp implements DreamSwellBoardService{
 	}
 	
 	@Override
+	public ArrayList<DreamSwellBoardVO> selectScrollBoardOld(int sizeOfPage, Integer categoryNum, String search,  String endDate) {
+		ArrayList<DreamSwellBoardVO> list = null;
+		try {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("sizeOfPage", sizeOfPage);
+			map.put("categoryNum", categoryNum);
+			map.put("search", search);
+			map.put("endDate", LocalDate.now());
+			
+			list= dreamBoardDAO.selectScrollListOld(map);
+			log.debug("정다현",list);
+			log.debug("정다현2:{}",map);
+			for(DreamSwellBoardVO boardVO : list) {
+				//유정 정보 
+				boardVO.setMember(dreamUserService.selectByIdx(boardVO.getUserRef()));
+				
+				//카테고리 정보 
+				List<String> categoryNames=new ArrayList<>();
+				 if (boardVO.getCategory1() != null) {
+		                categoryNames.add(dreamCategoryDAO.selectCategoryBycategoryNum(boardVO.getCategory1()));
+		            }
+		            if (boardVO.getCategory2() != null) {
+		                categoryNames.add(dreamCategoryDAO.selectCategoryBycategoryNum(boardVO.getCategory2()));
+		            }
+		            if (boardVO.getCategory3() != null) {
+		                categoryNames.add(dreamCategoryDAO.selectCategoryBycategoryNum(boardVO.getCategory3()));
+		            }
+		            log.debug("ㅇㅇ{}",categoryNames);
+		            log.debug("맵:{}",map);
+		            boardVO.setCategoryName1(categoryNames);
+		            
+		            //파일 정보
+		            boardVO.setFileboardVO(fileBoardDAO.selectfileByRef(boardVO.getIdx()));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@Override
 	public Long findLastItemIdx() {
 	    Long result = 0L; // Long으로 선언하고 기본값 설정
 	    try {

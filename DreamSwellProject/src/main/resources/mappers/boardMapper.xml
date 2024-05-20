@@ -55,6 +55,48 @@
 		LIMIT #{sizeOfPage}
 	</select>
 	
+	<select id="selectScrollListOld" parameterType="hashmap" resultType="DreamSwellBoardVO">
+		select
+			dreamswellBoard.*,
+			(
+				SELECT
+					MAX(categoryName)
+				FROM
+					dreamcategory
+				WHERE
+					dreamcategory.idx = dreamswellBoard.category1
+					OR dreamcategory.idx = dreamswellBoard.category2
+					OR dreamcategory.idx = dreamswellBoard.category3
+			) AS categoryName
+		from
+			dreamswellBoard
+		where
+			1=1
+			<if test="search != null">
+				and (
+					dreamswellBoard.title like  concat('%', #{search}, '%')
+					OR dreamswellBoard.content like concat('%', #{search}, '%')
+				)
+			</if>
+			<if test="categoryNum != null ">
+				and(				
+				 	dreamswellBoard.category1 = #{categoryNum}
+					OR dreamswellBoard.category2 = #{categoryNum}
+					OR dreamswellBoard.category3 = #{categoryNum}
+				 )
+			</if>
+			<if test="endDate != null ">
+				and(				
+				 	<![CDATA[
+						dreamswellBoard.endDate > #{endDate}
+			]]>
+				 )
+			</if>
+		order by
+			dreamswellBoard.endDate DESC
+		LIMIT #{sizeOfPage}
+	</select>
+	
 	<select id="findLastItemIdx" resultType="Long">
 	    SELECT 
 	        IFNULL(MAX(dreamswellBoard.idx), 0) AS lastItemIdx

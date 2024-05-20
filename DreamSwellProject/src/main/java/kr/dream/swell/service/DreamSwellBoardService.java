@@ -8,6 +8,8 @@ public interface DreamSwellBoardService {
 	// 1. 페이징
 	List<DreamSwellBoardVO> selectScrollBoard(Long lastItemIdx, int sizeOfPage, Integer categoryNum, String search, String endDate, String end);
 	
+	List<DreamSwellBoardVO> selectScrollBoardOld(int sizeOfPage, Integer categoryNum, String search, String endDate);
+	
 	Long findLastItemIdx();
 	// 2. 한개얻기
 	DreamSwellBoardVO selectByIdx(Long idx);

@@ -85,6 +85,24 @@ public class MainController {
 		return "endpage";
 	}
 	
+	@GetMapping("/old")
+	public String New(@ModelAttribute(value = "cv") CommonVO cv,HttpSession session, Model model) {
+		if(session.getAttribute("user") != null) {
+			model.addAttribute("user", session.getAttribute("user"));
+		}
+		DreamSwellFileBoardVO boardVO = new DreamSwellFileBoardVO();
+		log.debug("안녕22{}",cv);
+		List<String> categoryList= boardService.findCategoryList();
+		List<DreamSwellBoardVO> pv =boardService.selectScrollBoardOld(cv.getS(), cv.getCategoryNum(), cv.getSearch(), cv.getEndDate());
+		log.debug("진짜{}",pv);
+		model.addAttribute("categoryList",categoryList);
+		model.addAttribute("sc", pv);
+		model.addAttribute("cv", cv);
+		model.addAttribute("hh", boardVO);
+		
+		return "newPage";
+	}
+	
 	@GetMapping("/view/{idx}")
 	public String  donationPage(@PathVariable(value = "idx") Long idx, Model model, HttpServletRequest request, HttpServletResponse response) {
 		DreamSwellBoardVO dreamSwellBoardVO = boardService.selectByIdx(idx);
@@ -175,6 +193,14 @@ public class MainController {
 		log.debug("getScrollItem : {}", map);
 		 CommonVO cv = new CommonVO();
 		List<DreamSwellBoardVO> result = boardService.selectScrollBoard((long) Integer.parseInt(map.get("lastItemIdx")), Integer.parseInt(map.get("sizeOfPage")), null, map.get("search"), map.get("endDate"), map.get("end"));
+		return result;
+	}
+	@PostMapping("/getScrollItem2")
+	@ResponseBody
+	public List<DreamSwellBoardVO> getScrollItem2(@RequestBody Map<String, String> map){
+		log.debug("getScrollItem2 : {}", map);
+		List<DreamSwellBoardVO> result = boardService.selectScrollBoardOld( Integer.parseInt(map.get("sizeOfPage")), null, map.get("search"), map.get("endDate"));
+		log.debug("getScrollItem3 : {}", result);
 		return result;
 	}
 
